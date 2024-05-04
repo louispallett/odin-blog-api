@@ -2,7 +2,9 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const passport = require("passport");
 
+const indexRouter = require("./routes/indexRouter");
 const commentsRouter = require("./routes/commentsRouter");
 const postsRouter = require("./routes/postsRouter");
 
@@ -18,16 +20,24 @@ async function main() {
 
 const app = express();
 
-app.get("/api", (req, res, next) => {
-    res.json(
-        {
-            message: "Welcome to the API",
-        }
-    );
-});
+app.use(logger('dev'));
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use("/posts", postsRouter);
+require("./config/passport.js");
+
+// Temp: for dev
+app.use((req, res, next) => {
+    console.log(req.session);
+    console.log(req.user);
+    next();
+});  
+
+app.use("/", indexRouter);
 app.use("/comments", commentsRouter);
+app.use("/posts", postsRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
