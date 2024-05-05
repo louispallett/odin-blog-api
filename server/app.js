@@ -1,7 +1,9 @@
 const bcrypt = require("bcrypt");
+bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const mongoose = require("mongoose");
+const logger = require('morgan');
 const path = require("path");
 const passport = require("passport");
 
@@ -21,20 +23,20 @@ async function main() {
 
 const app = express();
 
-// app.use(logger('dev'));
+app.use(logger('dev'));
 app.use(express.json());
-// app.use(cookieParser());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 require("./config/passport.js");
 
 // Temp: for dev
-app.use((req, res, next) => {
-    console.log(req.session);
-    console.log(req.user);
-    next();
-});  
+// app.use((req, res, next) => {
+//     console.log(req.session);
+//     console.log(req.user);
+//     next();
+// });  
 
 app.use("/", indexRouter);
 app.use("/comments", commentsRouter);
