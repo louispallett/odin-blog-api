@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -20,9 +21,9 @@ async function main() {
 
 const app = express();
 
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
