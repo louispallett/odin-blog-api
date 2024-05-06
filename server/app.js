@@ -1,11 +1,13 @@
 const bcrypt = require("bcrypt");
 bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const logger = require('morgan');
 const path = require("path");
 const passport = require("passport");
+const session = require("express-session");
 
 const indexRouter = require("./routes/indexRouter");
 const commentsRouter = require("./routes/commentsRouter");
@@ -28,15 +30,27 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: true
+}))
+// app.use(cors({
+//     // TODO: At production add our frontend
+// }))
 
 require("./config/passport.js");
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 // Temp: for dev
-// app.use((req, res, next) => {
-//     console.log(req.session);
-//     console.log(req.user);
-//     next();
-// });  
+app.use((req, res, next) => {
+    console.log(req.session);
+    console.log(req.user);
+    next();
+});  
 
 app.use("/", indexRouter);
 app.use("/comments", commentsRouter);
