@@ -1,8 +1,6 @@
-const jwt = require("jsonwebtoken");
-
-/* This is just our verification method to ensure that the token is correct.
-Simply, we can pass this as a middleware when calling get/post/put/delete requests, to 
-ensure only authorized users do this! */
+/* NOTE: all this middleware does is SET req.token to the header token. It does NOT check whether the user has a 
+VALID token. It simply gets the token (if stored in header) and sets it to req.token. We use verifyUser() to actually
+check the token is valid */
 
 const verifyToken = (req, res, next) => {
     const bearerHeader = req.headers["authorization"];
@@ -16,4 +14,4 @@ const verifyToken = (req, res, next) => {
     }
 }
 
-module.exports = verifyToken();
+module.exports = verifyToken;
