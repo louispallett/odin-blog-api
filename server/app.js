@@ -1,4 +1,3 @@
-const bcrypt = require("bcrypt");
 bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -11,7 +10,7 @@ const session = require("express-session");
 
 const indexRouter = require("./routes/indexRouter");
 const commentsRouter = require("./routes/commentsRouter");
-const postsRouter = require("./routes/postsRouter");
+const articlesRouter = require("./routes/articlesRouter");
 
 require('dotenv').config();
 
@@ -54,7 +53,7 @@ app.use((req, res, next) => {
 
 app.use("/", indexRouter);
 app.use("/comments", commentsRouter);
-app.use("/posts", postsRouter);
+app.use("/articles", articlesRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
