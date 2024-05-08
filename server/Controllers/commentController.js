@@ -4,13 +4,14 @@ const Comment = require("../models/comment");
 const verifyUser = require("../config/verifyUser");
 
 exports.comment_list = asyncHandler(async (req, res, next) => {
-    // const comments = await Comment.find({ article: req.params.articleId }).sort({ date:1 }).exec();
-    const comments = await Comment.find({ article: req.params.articleId }).exec();
+    const comments = await Comment.find({ article: req.params.articleId }).sort({ date:1 }).exec();
+    // const comments = await Comment.find({ article: req.params.articleId }).exec();
     res.json({ comments });
 });
 
 exports.comment_detail = asyncHandler(async (req, res, next) => {
-    const comment = await Comment.findById(req.params.id).exec();
+    await verifyUser(req.token);
+    const comment = await Comment.findById("663beba11798c3c2d59dbf7f").exec();
     res.json({ comment });
 });
 
@@ -41,11 +42,32 @@ exports.new_comment_post = [
     })
 ];
 
+// Possibly redundant
 exports.delete_get = asyncHandler(async (req, res, next) => {
 
 });
 
 exports.delete_post = [
+    // TODO: Error handle
+    asyncHandler(async (req, res, next) => {
+        try {
+            await verifyUser(req.token);
+            const comment = Comment.findById(req.params.id).exec();
+            if (!comment) {
+                res.sendStatus(404);
+            } else {
+                await Comment.findByIdAndDelete(req.params.id);
+                res.json(
+                    {
+                        acknowledged: true,
+                        message: "Comment deleted"
+                    }
+                )
+            }
+        } catch (err) {
+            res.sendStatus(err);
+        }
+    })
 
 ];
 
