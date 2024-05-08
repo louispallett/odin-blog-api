@@ -52,8 +52,9 @@ app.use((req, res, next) => {
 });  
 
 app.use("/", indexRouter);
-app.use("/comments", commentsRouter);
 app.use("/articles", articlesRouter);
+// See commentsRouter.js - we MUST use mergeParams: true in order to use parameters across files
+app.use("/articles/:articleId/comments", commentsRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

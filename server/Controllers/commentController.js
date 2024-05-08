@@ -4,7 +4,8 @@ const Comment = require("../models/comment");
 const verifyUser = require("../config/verifyUser");
 
 exports.comment_list = asyncHandler(async (req, res, next) => {
-    const comments = await Comment.find({ article: req.params.article_id }).sort({ date:1 }).exec();
+    // const comments = await Comment.find({ article: req.params.articleId }).sort({ date:1 }).exec();
+    const comments = await Comment.find({ article: req.params.articleId }).exec();
     res.json({ comments });
 });
 
@@ -25,7 +26,7 @@ exports.new_comment_post = [
         try {
             const userData = await verifyUser(req.token);
             const new_comment = new Comment({
-                post: "",
+                article: req.params.articleId,
                 author: userData.user._id,
                 content: req.body.content,
                 date: new Date(),
@@ -35,7 +36,7 @@ exports.new_comment_post = [
             await new_comment.save();
             res.json({ new_comment });
         } catch (err) {
-
+            res.sendStatus(403);
         }
     })
 ];

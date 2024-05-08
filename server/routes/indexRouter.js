@@ -29,7 +29,7 @@ router.post("/sign-in",
                 });
             } else {
                 req.login(user, next); // Note that this assigns req.user to user. It is also a req, so we need a response in this line (otherwise we receive an error)
-                jwt.sign({ user: user}, process.env.SECRET_KEY, { expiresIn: "10h" }, (err, token) => {
+                jwt.sign({ user: user}, process.env.SECRET_KEY, { expiresIn: "10d" }, (err, token) => {
                     res.json({ token: token }); // We send this to the front end and save it in local storage
                 });
             }

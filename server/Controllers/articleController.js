@@ -16,7 +16,7 @@ exports.article_detail = asyncHandler(async (req, res, next) => {
     const article = await Article.findById(req.params.id).exec();
     res.json(
         {
-            post
+            article
         }
     )
 });
@@ -45,7 +45,7 @@ exports.new_article_post = [
            await new_article.save();
            res.json({ new_article }); // We want to return this to the frontend so we can redirect the client to the post 
         } catch (err) {
-            res.sendStatus(err);
+            res.sendStatus(403);
         }
     })
 ];
@@ -56,6 +56,7 @@ exports.delete_article_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.delete_article_post = [
+    // TODO: Error handle
     asyncHandler(async (req, res, next) => {
         try {
             await verifyUser(req.token);
