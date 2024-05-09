@@ -1,17 +1,21 @@
 const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
 
 const Comment = require("../models/comment");
 const verifyUser = require("../config/verifyUser");
 
 exports.comment_list = asyncHandler(async (req, res, next) => {
     const comments = await Comment.find({ article: req.params.articleId }).sort({ date:1 }).exec();
-    // const comments = await Comment.find({ article: req.params.articleId }).exec();
+    // Don't need to handle a !comments condition here - if an empty array is returned to the client, we know that
+    // there are no comments on this article
     res.json({ comments });
 });
 
 exports.comment_detail = asyncHandler(async (req, res, next) => {
-    await verifyUser(req.token);
-    const comment = await Comment.findById("663beba11798c3c2d59dbf7f").exec();
+    const comment = await Comment.findById(req.params.id).exec();
+    if (!comment) {
+        res.sendStatus(404);
+    }
     res.json({ comment });
 });
 
@@ -21,9 +25,16 @@ exports.new_comment_get = asyncHandler(async (req, res, next) => {
 });
 
 exports.new_comment_post = [
-    // TODO: Add validation
-    // TODO: Error handle
+    body("content", "Content contains invalid characters (<, >, `, or \")")
+        .trim()
+        .escape(),
+
     asyncHandler(async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.json({ message: "Validation Failed", errors: errors.array() })
+            return;
+        }
         try {
             const userData = await verifyUser(req.token);
             const new_comment = new Comment({
@@ -33,7 +44,6 @@ exports.new_comment_post = [
                 date: new Date(),
                 likes: 0
             });
-            // TODO: Handle validation errors
             await new_comment.save();
             res.json({ new_comment });
         } catch (err) {
@@ -44,15 +54,17 @@ exports.new_comment_post = [
 
 // Possibly redundant
 exports.delete_get = asyncHandler(async (req, res, next) => {
-
+    const comment = await Comment.findById(req.params.id).exec();
+    if (!comment) {
+        res.sendStatus(404);
+    }
+    next();
 });
 
-exports.delete_post = [
-    // TODO: Error handle
-    asyncHandler(async (req, res, next) => {
+exports.delete_post = asyncHandler(async (req, res, next) => {
         try {
             await verifyUser(req.token);
-            const comment = Comment.findById(req.params.id).exec();
+            const comment = await Comment.findById(req.params.id).exec();
             if (!comment) {
                 res.sendStatus(404);
             } else {
@@ -67,7 +79,5 @@ exports.delete_post = [
         } catch (err) {
             res.sendStatus(err);
         }
-    })
-
-];
+});
 
