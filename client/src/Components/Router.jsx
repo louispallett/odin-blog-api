@@ -1,16 +1,40 @@
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
-import App from "./App";
+import Dashboard from "./Dashboard";
+import Article from "./Article";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+import Users from "./Users";
 
 export default function Router() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Navigate to="/articles" replace />
+            element: <Navigate to="/dashboard/articles/" replace />
         },
         {
-            path: "/articles",
-            element: <App />
+            path: "/dashboard",
+            element: <Dashboard />,
+            children: [
+                {
+                    path: "articles",
+                    element: <Article />
+                }
+            ]
+        },
+        {
+            path: "/users",
+            element: <Users />,
+            children: [
+                {
+                    path: "sign-up",
+                    element: <SignUp />
+                },
+                {
+                    path: "sign-in",
+                    element: <SignIn />
+                }
+            ]
         }
     ]);
 
