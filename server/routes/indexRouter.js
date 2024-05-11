@@ -7,10 +7,24 @@ const router = express.Router();
 const { body, validationResult } = require("express-validator");
 
 const User = require("../models/user");
+const Article = require("../models/article");
+const Comment = require("../models/comment");
 
-router.get("/", (req, res, next) => {
-    res.redirect("/sign-in");
-});
+router.get("/about", asyncHandler(async (req, res, next) => {
+    const [users, articles, comments] = await Promise.all([
+        User.find().exec(),
+        Article.find().exec(),
+        Comment.find().exec()
+    ]);
+
+    res.json(
+        {
+            users,
+            articles,
+            comments,
+        }
+    )
+}));
 
 router.get("/sign-in", (req, res, next) => {
     // Possibly just check if they are authenticated here? And then can redirect on the frontend

@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
 import Dashboard from "./Dashboard";
+import About from "./About";
 import Article from "./Article";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -16,6 +17,10 @@ export default function Router() {
             path: "/dashboard",
             element: <Dashboard />,
             children: [
+                {
+                    path: "about",
+                    element: <About />,
+                },
                 {
                     path: "articles",
                     element: <Article />
