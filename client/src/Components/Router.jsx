@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 
 import Dashboard from "./Dashboard";
 import About from "./About";
-import Article from "./Article";
+import Articles from "./Articles";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Users from "./Users";
@@ -23,7 +23,7 @@ export default function Router() {
                 },
                 {
                     path: "articles",
-                    element: <Article />
+                    element: <Articles />
                 }
             ]
         },

@@ -10,7 +10,7 @@ export {
     Button 
 };
 
-const BackgroundContainer = tw.div`relative flex min-h-screen flex-col overflow-hidden bg-gray-300 dark:bg-gray-800 py-0`;
+const BackgroundContainer = tw.div`relative flex min-h-screen flex-col overflow-hidden bg-gray-200 dark:bg-gray-800 py-0`;
 const BackgroundContainerCentre = tw.div`relative flex justify-center min-h-screen flex-col overflow-hidden dark:bg-gray-800 py-6 sm:py-12`;
 const UsersContainer = tw.div`bg-blue-950 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:rounded-lg max-sm:px-5 sm:px-8`;
 const BoxContainer = tw.div`flex flex-col justify-center bg-none px-6 pt-10 pb-8 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10`;
