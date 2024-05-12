@@ -4,11 +4,11 @@ const router = express.Router();
 const article_controller = require("../Controllers/articleController");
 const verifyToken = require("../config/verifyToken");
 
-router.get("/", verifyToken, article_controller.article_list);
+router.get("/", article_controller.article_list);
 
-router.get("/:id", verifyToken, article_controller.article_detail);
+router.get("/:id", article_controller.article_detail);
 
-// Possibly redundant?
+// Not redundant - we need to verify their token to allow them onto this page!
 router.get("/create", verifyToken, article_controller.new_article_get);
 
 router.post("/create", verifyToken, article_controller.new_article_post);

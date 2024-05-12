@@ -14,13 +14,13 @@ export default function About() {
         And also where we are based etc.
     */
 
-    const [data, setData] = useState(null);
+    const [siteData, setSiteData] = useState(null);
 
     useEffect(() => {
         const apiCall = async () => {
             const response = await fetch("/api/about/");
-            const data = await response.json();
-            setData(data);
+            const siteData = await response.json();
+            setSiteData(siteData);
         }
         apiCall();
     }, []);
@@ -30,11 +30,11 @@ export default function About() {
         <>
             <BoxContainer>
                 <h1 className="font-jaro text-center my-5 sm:text-3xl sm:mb-15 dark:text-white">Just the ramblings of a Bristol-based developer</h1>
-                { data ? (
+                { siteData ? (
                     <ul className="flex justify-center items-center gap-7 text-yellow-500">
-                        <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Users: {data.users}</li>
-                        <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg" >Articles: {data.articles}</li>
-                        <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Comments: {data.comments}</li>
+                        <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Users: {siteData.users}</li>
+                        <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg" >Articles: {siteData.articles}</li>
+                        <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Comments: {siteData.comments}</li>
                     </ul>
                 ) : (
                     <img src={loadingIcon} alt="" className="h-10 m-10" id="loading-icon"/>
