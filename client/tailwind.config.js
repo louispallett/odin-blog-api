@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      jaro: ["Jaro", "sans-serif"],
+    }
   },
   plugins: [],
 }

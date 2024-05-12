@@ -3,7 +3,7 @@ import tw from 'twin.macro';
 
 export { BackgroundContainer, BackgroundContainerCentre, BoxContainer, HeaderContainer, UsersContainer, Button };
 
-const BackgroundContainer = tw.div`relative flex min-h-screen flex-col overflow-hidden bg-gray-200 dark:bg-slate-800 py-0`;
+const BackgroundContainer = tw.div`relative flex min-h-screen flex-col overflow-hidden bg-gray-300 dark:bg-gray-800 py-0`;
 const BackgroundContainerCentre = tw.div`relative flex justify-center min-h-screen flex-col overflow-hidden dark:bg-blue-950 py-6 sm:py-12`;
 const UsersContainer = tw.div`relative bg-blue-950 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-600/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10`;
 const BoxContainer = tw.div`flex flex-col justify-center bg-none px-6 pt-10 pb-8 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10`;

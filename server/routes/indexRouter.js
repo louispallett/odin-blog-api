@@ -19,9 +19,9 @@ router.get("/about", asyncHandler(async (req, res, next) => {
 
     res.json(
         {
-            users,
-            articles,
-            comments,
+            users: users.length,
+            articles: articles.length,
+            comments: comments.length,
         }
     )
 }));
