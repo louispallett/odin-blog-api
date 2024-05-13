@@ -32,7 +32,7 @@ exports.new_article_post = [
     // TODO: Update 'image_url' with image file via cloudinary - see inventory application project
     body("article_title")
         .trim()
-        .isLength({ min: 2, max: 25 }).withMessage("Title must be between 2 and 25 characters in length")
+        .isLength({ min: 2, max: 35 }).withMessage("Title must be between 2 and 35 characters in length")
         .escape(),
     body("article_content")
         .trim()
@@ -50,6 +50,7 @@ exports.new_article_post = [
                author: userData.user._id,
                date: new Date(),
                title: req.body.article_title,
+               synposis: req.body.synposis,
                content: req.body.article_content,
                image_url: req.body.image_url, // We'll have to change this after
            });

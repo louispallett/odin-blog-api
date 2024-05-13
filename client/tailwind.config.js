@@ -8,6 +8,7 @@ export default {
     extend: {},
     fontFamily: {
       jaro: ["Jaro", "sans-serif"],
+      sedan: ["Sedan", "sans-serif"],
     }
   },
   plugins: [],

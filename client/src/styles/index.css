@@ -40,3 +40,10 @@ input, input:hover, input:focus {
     url("/assets/fonts/jaro.woff2") format("woff2"),
     url("/assets/fonts/jaro.woff") format("woff");
 }
+
+@font-face {
+    font-family: "Sedan";
+    src: 
+    url("/assets/fonts/sedanSC.woff2") format("woff2"),
+    url("/assets/fonts/sedanSC.woff") format("woff");
+}

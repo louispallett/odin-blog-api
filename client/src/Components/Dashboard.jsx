@@ -1,6 +1,6 @@
 import { Link, Outlet } from 'react-router-dom';
 
-import { BackgroundContainer, BoxContainer, HeaderContainer } from './tailwind-containers';
+import { BackgroundContainer, HeaderContainer } from './tailwind-containers';
 
 export default function App() {
   return (
@@ -12,14 +12,14 @@ export default function App() {
           <h1 className="text-2xl font-jaro sm:text-4xl font-black text-white">Guardian</h1>
         </Link>
       </div>
-      <ul className="list none flex flex-col sm:flex-row items-center gap-1 sm:gap-5 font-bold text-xl text-amber-400">
-        <Link to="/dashboard/articles">
+      <ul className="list none flex flex-col sm:flex-row items-center gap-1 sm:gap-5 font-bold text-xl text-slate-100">
+        <Link to="/dashboard/articles" className="py-5 hover:text-yellow-400">
           <li>Home</li>
         </Link>
-        <Link to="/dashboard/about">
+        <Link to="/dashboard/about" className="py-5 hover:text-yellow-400">
           <li>About</li>
         </Link>
-        <Link to="/users/sign-up">
+        <Link to="/users/sign-up" className="py-5 hover:text-yellow-400">
           <li>Sign up</li>
         </Link>
       </ul>

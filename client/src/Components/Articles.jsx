@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
-import loadingIcon from "/assets/images/loading.svg"
+import loadingIcon from "/assets/images/loading.svg";
+import imagePlaceholder from "/assets/images/image_placeholder.svg";
 
 export default function Articles() {
     const [articles, setArticles] = useState(null);
@@ -34,7 +36,7 @@ export default function Articles() {
                 <img src={loadingIcon} alt="" className="h-10 m-10" id="loading-icon"/>
             )}
             {articles && (
-                <div className="grid sm:grid-cols-3">
+                <div className="grid sm:grid-cols-2 m-2.5 sm:m-5 sm:gap-5 justify-center">
                     {/* NOTE: The JSON data starts with "article", hence we have to access it like this! */}
                     {articles.articles.map(item => (
                         <ArticleCard key={item._id} data={item} />
@@ -54,8 +56,18 @@ export default function Articles() {
 
 function ArticleCard({ key, data }) {
     return (
-        <div className="">
-            <p>{data.title}</p>
-        </div>
+        <Link to={key} className="hover:opacity-80">
+            <div className="bg-blue-950 rounded-b-none rounded-lg">
+                <h5 class="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-900 sm:text-4xl sm:font-black sm:p-5 dark:text-white">{data.title}</h5>
+            </div>
+            <div className="flex items-center flex-col min-w-full p-6 bg-white rounded-lg rounded-t-none shadow dark:bg-slate-700">
+                {data.image_url ? (
+                    <img src={data.image_url} alt="" className="object-contain max-h-60 max-w-full" />
+                ) : (
+                    <img src={imagePlaceholder} alt="" className="object-contain max-h-60 max-w-full" />
+                )}
+                <p class="self-start my-1.5 italic sm:my-3.5 dark:text-slate-100">{data.synopsis}</p>
+            </div>
+        </Link>
     )
 }
