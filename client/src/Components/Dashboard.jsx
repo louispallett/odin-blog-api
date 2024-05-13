@@ -25,7 +25,7 @@ export default function App() {
       </ul>
     </HeaderContainer>
     <Outlet />
-    <footer className="bg-blue-100 rounded-lg shadow m-4 dark:bg-blue-950 dark:text-white">
+    <footer className="rounded-lg shadow m-4 bg-blue-950 text-white">
       <div className="w-full mx-auto max-w-screen-xl p-4">
         <a href="https://github.com/louispallett/odin-blog-api" className="flex gap-2.5">
           <h2 className="text-sm">© 2024 LowPal, The Odin Project</h2>
