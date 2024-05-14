@@ -36,7 +36,7 @@ export default function Articles() {
                 <img src={loadingIcon} alt="" className="h-10 m-10" id="loading-icon"/>
             )}
             {articles && (
-                <div className="grid sm:grid-cols-2 m-2.5 sm:m-5 sm:gap-5 justify-center">
+                <div className="grid gap-2.5 sm:grid-cols-2 m-2.5 sm:m-5 sm:gap-5 justify-center">
                     {/* NOTE: The JSON data starts with "article", hence we have to access it like this! */}
                     {articles.articles.map(item => (
                         <ArticleCard key={item._id} data={item} />
@@ -60,13 +60,13 @@ function ArticleCard({ key, data }) {
             <div className="bg-blue-950 rounded-b-none rounded-lg">
                 <h5 class="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 sm:text-4xl sm:font-black sm:p-5">{data.title}</h5>
             </div>
-            <div className="flex items-center flex-col min-w-full p-6 bg-white rounded-lg rounded-t-none shadow dark:bg-slate-700">
+            <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow dark:bg-slate-700">
                 {data.image_url ? (
-                    <img src={data.image_url} alt="" className="object-contain max-h-60 max-w-full" />
+                    <img src={data.image_url} alt="" className="object-cover max-h-96 max-w-full" />
                 ) : (
-                    <img src={imagePlaceholder} alt="" className="object-contain max-h-60 max-w-full" />
+                    <img src={imagePlaceholder} alt="" className="object-contain max-h-96 max-w-full" />
                 )}
-                <p class="self-start my-1.5 italic sm:my-3.5 dark:text-slate-100">{data.synopsis}</p>
+                <p class="self-start italic px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100">{data.synopsis}</p>
             </div>
         </Link>
     )

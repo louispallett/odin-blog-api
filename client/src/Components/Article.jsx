@@ -52,13 +52,13 @@ export default function Article() {
 
 function ArticleBody({ data }) {
     return (
-        <div className="flex flex-col p-2.5 sm:p-5">
+        <div className="flex flex-col p-2.5 sm:p-5 sm:max-w-5xl">
             <div className="bg-blue-950 rounded-b-none rounded-lg">
                 <h5 class="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 sm:text-4xl sm:font-black sm:p-5">{data.title}</h5>
             </div>
-            <div className="flex items-center flex-col min-w-full p-6 bg-white rounded-lg rounded-t-none shadow dark:bg-slate-700">
+            <div className="flex flex-col min-w-full p-6 bg-white rounded-lg rounded-t-none shadow dark:bg-slate-700">
                 {data.image_url ? (
-                    <img src={data.image_url} alt="" className="object-contain max-h-40 max-w-full sm:max-h-60 md:max-h-96" />
+                    <img src={data.image_url} alt="" className="object-cover max-h-60 max-w-full sm:max-h-96" />
                 ) : (
                 <img src={imagePlaceholder} alt="" className="object-contain max-h-60 max-w-full" />
                 )}

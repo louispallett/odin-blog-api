@@ -24,7 +24,9 @@ export default function App() {
         </Link>
       </ul>
     </HeaderContainer>
-    <Outlet />
+    <div className="grid justify-center max-w-full">
+      <Outlet />
+    </div>
     <footer className="rounded-lg shadow m-4 bg-blue-950 text-white">
       <div className="w-full mx-auto max-w-screen-xl p-4">
         <a href="https://github.com/louispallett/odin-blog-api" className="flex gap-2.5">
