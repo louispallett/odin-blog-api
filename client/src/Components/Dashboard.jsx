@@ -8,8 +8,8 @@ export default function App() {
     <HeaderContainer>
       <div>
         <Link to="/dashboard/articles/" >
-          <h1 className="relative font-jaro inset-y-4 inset-x-3 text-2xl sm:inset-x-5 sm:text-4xl font-black text-white">The</h1>
-          <h1 className="text-2xl font-jaro sm:text-4xl font-black text-white">Guardian</h1>
+          <h1 id="main-title" className="relative font-jaro inset-y-4 inset-x-3 text-2xl sm:inset-x-5 sm:text-4xl font-black text-white">The</h1>
+          <h1 id="main-title" className="text-2xl font-jaro sm:text-4xl font-black text-white">Guardian</h1>
         </Link>
       </div>
       <ul className="list none flex flex-col sm:flex-row items-center gap-1 sm:gap-5 font-bold text-xl text-slate-100">
