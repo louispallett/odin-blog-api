@@ -39,7 +39,7 @@ export default function Articles() {
                 <div className="grid gap-2.5 sm:grid-cols-2 m-2.5 sm:m-5 sm:gap-5 justify-center">
                     {/* NOTE: The JSON data starts with "article", hence we have to access it like this! */}
                     {articles.articles.map(item => (
-                        <ArticleCard key={item._id} data={item} />
+                        <ArticleCard data={item} />
                     ))}
                 </div>
             )}
@@ -54,11 +54,11 @@ export default function Articles() {
     )
 }
 
-function ArticleCard({ key, data }) {
+function ArticleCard({ data }) {
     return (
         <Link to={data._id} className="hover:opacity-80">
             <div className="bg-blue-950 rounded-b-none rounded-lg">
-                <h5 class="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 sm:text-4xl sm:font-black sm:p-5">{data.title}</h5>
+                <h5 className="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 sm:text-4xl sm:font-black sm:p-5">{data.title}</h5>
             </div>
             <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow dark:bg-slate-700">
                 {data.image_url ? (
@@ -66,7 +66,7 @@ function ArticleCard({ key, data }) {
                 ) : (
                     <img src={imagePlaceholder} alt="" className="object-contain max-h-96 max-w-full" />
                 )}
-                <p class="self-start italic px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100">{data.synopsis}</p>
+                <p className="self-start italic px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100">{data.synopsis}</p>
             </div>
         </Link>
     )

@@ -8,9 +8,9 @@ const router = express.Router({ mergeParams: true });
 const comment_controller = require("../Controllers/commentController");
 const verifyToken = require("../config/verifyToken");
 
-router.get("/", verifyToken, comment_controller.comment_list);
+router.get("/", comment_controller.comment_list);
 
-router.get("/:id", verifyToken, comment_controller.comment_detail);
+router.get("/:id", comment_controller.comment_detail);
 
 router.get("/create", verifyToken, comment_controller.new_comment_get);
 

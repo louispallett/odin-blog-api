@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 export default function SignUp() {
+    // FIXME: Client side validation error: confpassword to checking status on keyup means message can appear even when passwords match
+    // FIXME: Data doesn't submit properly - it doesn't submit proper JSON so the backend doesn't recognise it.
+    // TODO: Redirect the user to the login page. We can possibly do this using useNavigate() - see https://www.makeuseof.com/redirect-user-after-login-react/
+
     // See the playlist on react-hook-form (https://www.youtube.com/playlist?list=PLC3y8-rFHvwjmgBr1327BA5bVXoQH-w5s)
     const form = useForm();
     const { register, control, handleSubmit, formState, watch } = form;
@@ -11,7 +15,17 @@ export default function SignUp() {
 
     // Development
     const onSubmit = async (data) => {
-        console.log(data);
+        /* FIXME: The error that's occuring here seems to be something to do with how we are submitting our data. If we run:
+            console.log(data)
+        The following is returned:
+            {
+                "username": "test2",
+                "email": "test2@test2.com",
+                "password": "Hello123!",
+                "confPassword": "Hello123!"
+            }
+        As far as I am aware, this is valid JSON, so why is an error still being thrown? Unless our backend isn't picking it up 
+        correctly.*/
         fetch("/api/sign-up", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

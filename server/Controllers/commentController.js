@@ -1,11 +1,15 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const mongoose = require("mongoose")
 
 const Comment = require("../models/comment");
 const verifyUser = require("../config/verifyUser");
 
 exports.comment_list = asyncHandler(async (req, res, next) => {
-    const comments = await Comment.find({ article: req.params.articleId }).sort({ date:1 }).exec();
+    const comments = await Comment.find({ article: new mongoose.Types.ObjectId(req.params.articleId) });
+    if (!comments) {
+        res.json({ message: "Error fetching data" });
+    }
     // Don't need to handle a !comments condition here - if an empty array is returned to the client, we know that
     // there are no comments on this article
     res.json({ comments });
