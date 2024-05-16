@@ -1,45 +1,32 @@
-import axios from "axios";
 import { DevTool } from "@hookform/devtools";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { Spinner } from "./tailwind-ex-elements";
 
 export default function SignUp() {
     // FIXME: Client side validation error: confpassword to checking status on keyup means message can appear even when passwords match
-    // FIXME: Data doesn't submit properly - it doesn't submit proper JSON so the backend doesn't recognise it.
-    // TODO: Redirect the user to the login page. We can possibly do this using useNavigate() - see https://www.makeuseof.com/redirect-user-after-login-react/
-
+    // TODO: Add client-side validation to check email is VALID email
     // See the playlist on react-hook-form (https://www.youtube.com/playlist?list=PLC3y8-rFHvwjmgBr1327BA5bVXoQH-w5s)
     const form = useForm();
+    const navigate = useNavigate();
     const { register, control, handleSubmit, formState, watch } = form;
     const { errors } = formState;
+    const [isPending, setIsPending] = useState(false);
 
     // Development
     const onSubmit = async (data) => {
-        /* FIXME: The error that's occuring here seems to be something to do with how we are submitting our data. If we run:
-            console.log(data)
-        The following is returned:
-            {
-                "username": "test2",
-                "email": "test2@test2.com",
-                "password": "Hello123!",
-                "confPassword": "Hello123!"
-            }
-        As far as I am aware, this is valid JSON, so why is an error still being thrown? Unless our backend isn't picking it up 
-        correctly.*/
+        setIsPending(true);
         fetch("/api/sign-up", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: data
+            body: JSON.stringify(data)
         }).then(() => {
             console.log("Successfully Submitted")
+            navigate("/users/sign-in");
         }). catch((err) => console.log(err));
-        try {
-            await axios.post("/users/sign-up", data, { "cors": true })
-                .then(() => console.log("Successfully submitted"))
-
-        } catch(err) {
-            console.log(err);
-        }
     }
 
     return (
@@ -116,7 +103,13 @@ export default function SignUp() {
                     </span>
                 </div>
                 <div>
-                    <button type="submit" className="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">Sign Up</button>
+                    { isPending ? (
+                        <div className="flex justify-center">
+                            <Spinner id="spinner"/>
+                        </div>
+                    ) : (
+                        <button type="submit" className="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">Sign Up</button>
+                    )}
                 </div>
             </form>
             {/* Development: */}
