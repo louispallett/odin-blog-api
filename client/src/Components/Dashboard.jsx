@@ -1,28 +1,30 @@
 import { Link, Outlet } from 'react-router-dom';
 
-import { BackgroundContainer, HeaderContainer } from './tailwind-containers';
+import { BackgroundContainer, HeaderContainer, HeaderContainerInner } from './tailwind-containers';
 
 export default function App() {
   return (
   <BackgroundContainer >
     <HeaderContainer>
-      <div>
-        <Link to="/dashboard/articles/" >
-          <h1 id="main-title" className="relative font-jaro inset-y-4 inset-x-3 text-2xl sm:inset-x-5 sm:text-4xl font-black text-white">The</h1>
-          <h1 id="main-title" className="text-2xl font-jaro sm:text-4xl font-black text-white">Guardian</h1>
-        </Link>
-      </div>
-      <ul className="list flex items-center gap-2.5 sm:gap-5 font-bold sm:text-xl text-slate-100">
-        <Link to="/dashboard/articles" className="py-5 hover:text-yellow-400">
-          <li>Home</li>
-        </Link>
-        <Link to="/dashboard/about" className="py-5 hover:text-yellow-400">
-          <li>About</li>
-        </Link>
-        <Link to="/users/sign-up" className="py-5 hover:text-yellow-400">
-          <li>Sign up</li>
-        </Link>
-      </ul>
+      <HeaderContainerInner>
+        <div>
+          <Link to="/dashboard/articles/" >
+            <h1 id="main-title" className="relative font-jaro inset-y-4 inset-x-3 text-2xl sm:inset-x-5 sm:text-4xl font-black text-white">The</h1>
+            <h1 id="main-title" className="text-2xl font-jaro sm:text-4xl font-black text-white">Guardian</h1>
+          </Link>
+        </div>
+        <ul className="list flex items-center gap-2.5 sm:gap-5 font-bold sm:text-xl text-slate-100">
+          <Link to="/dashboard/articles" className="py-5 hover:text-yellow-400">
+            <li>Home</li>
+          </Link>
+          <Link to="/dashboard/about" className="py-5 hover:text-yellow-400">
+            <li>About</li>
+          </Link>
+          <Link to="/users/sign-up" className="py-5 hover:text-yellow-400">
+            <li>Sign up</li>
+          </Link>
+        </ul>
+      </HeaderContainerInner>
     </HeaderContainer>
     <div className="grid justify-center max-w-full">
       <Outlet />

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const { DateTime } = require("luxon");
 
 const Comment = new Schema(
     {
@@ -16,5 +17,8 @@ const Comment = new Schema(
 Comment.virtual("date_formatted").get(function() {
     return DateTime.fromJSDate(this.date).toLocaleString(DateTime.DATETIME_MED);
 });
+
+// Since we are passing the data back to the client, we need to ensure it's passing JSON. We do this with the following command below:
+Comment.set('toJSON', { virtuals: true });
 
 module.exports = mongoose.model("Comment", Comment)

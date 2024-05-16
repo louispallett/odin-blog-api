@@ -36,7 +36,7 @@ export default function Articles() {
                 <img src={loadingIcon} alt="" className="h-10 m-10" id="loading-icon"/>
             )}
             {articles && (
-                <div className="grid gap-2.5 sm:grid-cols-2 m-2.5 sm:m-5 sm:gap-5 justify-center">
+                <div className="grid gap-2.5 lg:grid-cols-2 m-2.5 sm:m-5 sm:gap-5 justify-center">
                     {/* NOTE: The JSON data starts with "article", hence we have to access it like this! */}
                     {articles.articles.map(item => (
                         <ArticleCard data={item} />

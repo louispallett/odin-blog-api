@@ -6,26 +6,31 @@ const verifyUser = require("../config/verifyUser");
 
 exports.article_list = asyncHandler(async (req, res, next) => {
     const articles = await Article.find().sort({ date:1 }).exec();
-    res.json(
-        {
-            articles
-        }
-    )
+    if (!articles) {
+        res.sendStatus(404);
+    }
+    res.json({ articles })
 });
 
 exports.article_detail = asyncHandler(async (req, res, next) => {
-    const article = await Article.findById(req.params.id).exec();
-    res.json(
-        {
-            article
-        }
-    )
+    const article = await Article.findById(req.params.id)
+        .populate({ path: "author", select: "username -_id" })
+        .exec();
+    if (!article) {
+        res.sendStatus(404);
+    }
+    res.json({ article })
 });
 
 // Possibly redundant - I'm not certain what information we need to return to the front end for this one!
 // Using templates, we would just render the page, so this probably isn't needed!
 exports.new_article_get = asyncHandler(async (req, res, next) => {
-
+    try {
+        await verifyUser(req.token);
+        res.json({ access: true });
+    } catch (err) {
+        res.sendStatus(403)
+    }
 });
 
 exports.new_article_post = [

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 
-import loadingIcon from "/assets/images/loading.svg";
+import { Spinner } from "./tailwind-ex-elements";
 import imagePlaceholder from "/assets/images/image_placeholder.svg";
+import userImg from "/assets/images/user.svg";
 
 export default function Article() {
     const { id } = useParams();
@@ -33,7 +34,7 @@ export default function Article() {
     return (
         <>
             {loading && (
-                <img src={loadingIcon} alt="" className="h-10 m-10" id="loading-icon"/>
+                <Spinner id="spinner"/>
             )}
             {data && (
                 <ArticleBody data={data} articleId={id} />
@@ -67,7 +68,7 @@ function ArticleBody({ data }) {
                 ) : (
                 <img src={imagePlaceholder} alt="" className="object-contain max-h-60 max-w-full" />
                 )}
-                {/* <p className="self-end my-1.5 italic sm:my-3.5 dark:text-slate-100">{data.author}</p> */}
+                <p className="m-2 p-1 bg-blue-950 self-end font-bold rounded-lg text-slate-100 sm:mx-4 sm:p-1.5">By {data.author.username}</p>
                 <p className="self-start italic px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100">{data.synopsis}</p>
                 <hr className="mx-3.5 sm:mx-5" />
                 <p className="self-start px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100">{data.content}</p>
@@ -78,23 +79,23 @@ function ArticleBody({ data }) {
 }
 
 function Comments({ articleId }) {
-    const [comments, setComments] = useState([]);
+    const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
     useEffect(() => {
         const getComments = async () => {
             try {
-                const response = await fetch(`api/articles/${articleId}/comments/664381b14a69d3a6948e2ba5`, { mode: "cors" });
+                const response = await fetch(`/api/articles/${articleId}/comments`, { mode: "cors" });
                 if (!response.ok) {
                     throw new Error(response.status);
                 }
                 const actualData = await response.json();
-                setComments(actualData);
+                setData(actualData);
                 setError(null);
             } catch (err) {
                 setError(err.message);
-                setComments([]);
+                setData(null);
             } finally {
                 setLoading(false);
             }
@@ -105,10 +106,12 @@ function Comments({ articleId }) {
     return (
         <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow px-2.5 py-3.5 sm:px-3 sm:py-4 dark:bg-slate-700 dark:text-slate-100">
             {loading && (
-                <img src={loadingIcon} alt="" className="h-10 m-10" id="loading-icon"/>
+                <Spinner id="spinner"/>
             )}
-            {comments && (
-                <p className="text-black"></p>
+            {data && (
+                data.comments.map(item => (
+                    <Comment data={item} />
+                ))
             )}
             {error && (
                 <div>
@@ -117,6 +120,21 @@ function Comments({ articleId }) {
                     {/* <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p> */}
                 </div>
             )}
+        </div>
+    )
+}
+
+function Comment({ data }) {
+    return (
+        <div className="flex flex-col gap-1 my-1.5 sm:my-2.5 sm:gap-1.5">
+            <div className="flex justify-between items-center gap-1.5 sm:gap-3">
+                <div className="flex items-center gap-1.5 sm:gap-3">
+                    <img src={userImg} alt="" className="h-5 bg-blue-950 rounded-full p-1 sm:h-8 sm:p-1.5" />
+                    <p className="font-bold sm:text-lg">{data.author.username}</p>
+                </div>
+                <p className="italic text-xs sm:text-sm">{data.date_formatted}</p>
+            </div>
+            <p className="px-2.5 sm:px-5">{data.content}</p>
         </div>
     )
 }
