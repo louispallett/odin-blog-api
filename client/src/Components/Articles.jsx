@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
-import loadingIcon from "/assets/images/loading.svg";
+import { Spinner } from "./tailwind-ex-elements";
 import imagePlaceholder from "/assets/images/image_placeholder.svg";
 
 export default function Articles() {
@@ -33,7 +33,7 @@ export default function Articles() {
     return (
         <>
             {loading && (
-                <img src={loadingIcon} alt="" className="h-10 m-10" id="loading-icon"/>
+                <Spinner id="spinner"/>
             )}
             {articles && (
                 <div className="grid gap-2.5 lg:grid-cols-2 m-2.5 sm:m-5 sm:gap-5 justify-center">

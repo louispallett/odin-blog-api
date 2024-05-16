@@ -28,8 +28,8 @@ input[type="checkbox"] {
     cursor: pointer;
 }
 
-#loading-icon {
-    animation: rotate 1250ms infinite linear;
+#spinner {
+    animation: rotate 1000ms infinite linear;
 }
 
 @keyframes rotate {

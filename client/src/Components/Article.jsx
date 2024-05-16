@@ -34,7 +34,9 @@ export default function Article() {
     return (
         <>
             {loading && (
-                <Spinner id="spinner"/>
+                <div className="flex justify-center my-20">
+                    <Spinner id="spinner"/>
+                </div>
             )}
             {data && (
                 <ArticleBody data={data} articleId={id} />
@@ -106,7 +108,9 @@ function Comments({ articleId }) {
     return (
         <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow px-2.5 py-3.5 sm:px-3 sm:py-4 dark:bg-slate-700 dark:text-slate-100">
             {loading && (
-                <Spinner id="spinner"/>
+                <div className="flex justify-center mx-28 my-10">
+                    <Spinner id="spinner"/>
+                </div>
             )}
             {data && (
                 data.comments.map(item => (

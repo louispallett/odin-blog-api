@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BoxContainer } from "./tailwind-containers";
 
-import loadingIcon from "/assets/images/loading.svg";
+import { Spinner } from "./tailwind-ex-elements";
 
 export default function About() {
     /* Here we can write up a few things:
@@ -37,7 +37,7 @@ export default function About() {
                         <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Comments: {siteData.comments}</li>
                     </ul>
                 ) : (
-                    <img src={loadingIcon} alt="" className="h-10 m-10" id="loading-icon"/>
+                        <Spinner id="spinner"/>
                 )}
                 <div>
                     
