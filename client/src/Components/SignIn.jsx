@@ -1,36 +1,45 @@
 import axios from "axios";
 import { DevTool } from "@hookform/devtools";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+
+import { Spinner } from "./tailwind-ex-elements";
 
 export default function SignIn() {
+    // TODO: Need to return errors is email is not valid email
+    // TODO: Need to ensure specific information comes through to user (i.e. password incorrect or user not found)
     // See the playlist on react-hook-form (https://www.youtube.com/playlist?list=PLC3y8-rFHvwjmgBr1327BA5bVXoQH-w5s)
     const form = useForm();
     const { register, control, handleSubmit, formState, watch } = form;
     const { errors } = formState;
+    const navigate = useNavigate();
+    const [isPending, setIsPending] = useState(false);
+    const [loginError, setLoginError] = useState(null);
 
-    // Development
     const onSubmit = async (data) => {
-        console.log(data);
-        fetch("/api/sign-in", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: data
-        }).then(() => {
-            console.log("Successfully Submitted")
-        }). catch((err) => console.log(err));
-        try {
-            await axios.post("/users/sign-up", data, { "cors": true })
-                .then(() => console.log("Successfully submitted"))
-
-        } catch(err) {
-            console.log(err);
-        }
+        setIsPending(true)
+        axios.post("/api/sign-in", data)
+            .then(response => {
+                const token = response.data.token;
+                if (!token) {
+                    setIsPending(false);
+                    setLoginError(response.data.error);
+                    return;
+                }
+                localStorage.setItem("Authorization", token);
+                navigate("/dashboard/articles")
+            }).catch(err => {
+                console.log(err);
+            })
     }
 
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+                {loginError && (
+                    <p className="font-bold text-red-400">{loginError}</p>
+                )}
                 <div>
                     <label htmlFor="email" className="block text-sm leading-6 text-gray-100">Email</label>
                     <input autoComplete="email" required id="email" {...register("email", {
@@ -61,7 +70,13 @@ export default function SignIn() {
                     </span>
                 </div>
                 <div>
-                    <button type="submit" className="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">Sign Up</button>
+                    { isPending ? (
+                            <div className="flex justify-center">
+                                <Spinner id="spinner"/>
+                            </div>
+                        ) : (
+                            <button type="submit" className="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">Sign In</button>
+                    )}
                 </div>
             </form>
             {/* Development: */}
