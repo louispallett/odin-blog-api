@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
-const mongoose = require("mongoose")
 
 const Comment = require("../models/comment");
 const verifyUser = require("../config/verifyUser");
@@ -24,9 +23,13 @@ exports.comment_detail = asyncHandler(async (req, res, next) => {
     res.json({ comment });
 });
 
-// Possibly redundant
 exports.new_comment_get = asyncHandler(async (req, res, next) => {
-
+    try {
+        await verifyUser(req.token);
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(403)
+    }
 });
 
 exports.new_comment_post = [

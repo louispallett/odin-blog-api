@@ -10,11 +10,11 @@ const verifyToken = require("../config/verifyToken");
 
 router.get("/", comment_controller.comment_list);
 
-router.get("/:id", comment_controller.comment_detail);
-
 router.get("/create", verifyToken, comment_controller.new_comment_get);
 
 router.post("/create", verifyToken, comment_controller.new_comment_post);
+
+router.get("/:id", comment_controller.comment_detail);
 
 router.get("/:id/delete", verifyToken, comment_controller.delete_get);
 

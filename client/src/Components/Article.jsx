@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import { Spinner } from "./tailwind-ex-elements";
 import imagePlaceholder from "/assets/images/image_placeholder.svg";
 import userImg from "/assets/images/user.svg";
+import { AxiosHeaders } from "axios";
 
 export default function Article() {
     const { id } = useParams();
@@ -53,6 +54,7 @@ export default function Article() {
                     <h5 className="p-3 text-xl text-center font-sedan font-bold tracking-tight text-gray-100 sm:text-2xl sm:font-black sm:p-5">Comments</h5>
                 </div>
                 <Comments articleId={id} />
+                <PostComment />
             </div>
         </>
     )
@@ -82,8 +84,8 @@ function ArticleBody({ data }) {
 
 function Comments({ articleId }) {
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const getComments = async () => {
@@ -140,5 +142,35 @@ function Comment({ data }) {
             </div>
             <p className="px-2.5 sm:px-5">{data.content}</p>
         </div>
+    )
+}
+
+function PostComment({ articleId }) {
+    const [isAuth, setIsAuth] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const checkUser = async () => {
+            try {
+                const response = await fetch(`/api/articles/${articleId}/comments/create`, { mode: "cors" });
+                if (!response.ok) {
+                    throw new Error(response.status);
+                }
+                console.log(response);
+                // if (actualData.authentication) {
+                //     setIsAuth(true);
+                // }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        checkUser();
+    })
+    
+    return (
+        <>
+        
+        </>
     )
 }
