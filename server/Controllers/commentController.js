@@ -44,7 +44,7 @@ exports.new_comment_post = [
             return;
         }
         try {
-            const userData = await verifyUser(req.token);
+            const userData = await verifyUser(req.headers.authorization);
             const new_comment = new Comment({
                 article: req.params.articleId,
                 author: userData.user._id,

@@ -1,10 +1,12 @@
+import { DevTool } from "@hookform/devtools";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useParams, Link } from "react-router-dom"
 
 import { Spinner } from "./tailwind-ex-elements";
 import imagePlaceholder from "/assets/images/image_placeholder.svg";
 import userImg from "/assets/images/user.svg";
-import { AxiosHeaders } from "axios";
 
 export default function Article() {
     const { id } = useParams();
@@ -146,9 +148,42 @@ function Comment({ data }) {
 }
 
 function PostComment({ articleId }) {
+    const form = useForm();
+    const navigate = useNavigate();
+    const { register, control, handleSubmit, formState, watch } = form;
+    const { errors } = formState;
+    const [isPending, setIsPending] = useState(false);
+
     const [isAuth, setIsAuth] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const onSubmit = async (data) => {
+        const token = localStorage.getItem("Authorization");
+        if (!token) {
+            setLoading(false);
+            return;
+        };
+        setIsPending(true);
+        try {
+            fetch(`/api/articles/${articleId}/comments/create`, {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    "Authorization": `${token}`
+                },
+                body: JSON.stringify(data)
+            }).then(() => {
+                console.log("Successfully Submitted");
+                // Reload the page
+                window.location.reload();
+                })
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
         const checkUser = async () => {
@@ -182,11 +217,27 @@ function PostComment({ articleId }) {
     return (
         <>
             { isAuth && (
-                <form action="" className="flex flex-col gap-2.5 my-2 sm:gap-4 sm:my-4">
+                <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-2.5 my-2 sm:gap-4 sm:my-4">
                     <hr className="mx-5 sm:mx-10 border-slate-600"/>
-                    <textarea name="new-comment" id="new-comment" placeholder="Type here..."
-                    className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 dark:bg-transparent dark:text-white"></textarea>
-                    <button type="submit" className="text-sm rounded-md self-start px-2.5 py-1 font-bold bg-blue-800 sm:px-3.5 py-1.5">Post</button>
+                    <textarea name="content" id="content" placeholder="Type here..."
+                    className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 dark:bg-transparent dark:text-white"
+                    {...register("content", {
+                        required: "This input is required!",
+                        maxLength: {
+                            value: 200,
+                            message: "Cannot be longer than 200 characters"
+                        }
+                    })}></textarea>
+                    <span className="text-sm font-bold text-red-400">
+                        <p>{errors.content?.message}</p>
+                    </span>
+                    { isPending ? (
+                        <div className="flex justify-center">
+                            <Spinner id="spinner"/>
+                        </div>
+                    ) : (
+                        <button type="submit" className="text-sm rounded-md self-start px-2.5 py-1 font-bold bg-yellow-600 shadow-sm sm:px-3.5 py-1.5 hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">Post</button>
+                    )}
                 </form>
             )}
             { !isAuth && (

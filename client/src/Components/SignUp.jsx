@@ -16,7 +16,6 @@ export default function SignUp() {
     const { errors } = formState;
     const [isPending, setIsPending] = useState(false);
 
-    // Development
     const onSubmit = async (data) => {
         setIsPending(true);
         fetch("/api/sign-up", {
