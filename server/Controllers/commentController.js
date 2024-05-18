@@ -25,7 +25,7 @@ exports.comment_detail = asyncHandler(async (req, res, next) => {
 
 exports.new_comment_get = asyncHandler(async (req, res, next) => {
     try {
-        await verifyUser(req.token);
+        await verifyUser(req.headers.authorization);
         res.sendStatus(200);
     } catch (err) {
         res.sendStatus(403)

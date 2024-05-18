@@ -35,13 +35,13 @@ exports.new_article_get = asyncHandler(async (req, res, next) => {
 
 exports.new_article_post = [
     // TODO: Update 'image_url' with image file via cloudinary - see inventory application project
-    body("article_title")
+    body("title")
         .trim()
-        .isLength({ min: 2, max: 35 }).withMessage("Title must be between 2 and 35 characters in length")
+        .isLength({ min: 2, max: 40 }).withMessage("Title must be between 2 and 50 characters in length")
         .escape(),
-    body("article_content")
+    body("content")
         .trim()
-        .isLength({ min: 2, max: 5000 }).withMessage("Content must be between 200 and 5000 characters in length")
+        .isLength({ min: 200, max: 5000 }).withMessage("Content must be between 200 and 5000 characters in length")
         .escape(),
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
@@ -50,19 +50,20 @@ exports.new_article_post = [
             return;
         }
         try {
-            const userData = await verifyUser(req.token);
+            const userData = await verifyUser(req.headers.authorization);
             const new_article = new Article({
                author: userData.user._id,
                date: new Date(),
-               title: req.body.article_title,
-               synposis: req.body.synposis,
-               content: req.body.article_content,
+               title: req.body.title,
+               synopsis: req.body.synopsis,
+               content: req.body.content,
                image_url: req.body.image_url, // We'll have to change this after
            });
        
            await new_article.save();
            res.json({ new_article }); // We want to return this to the frontend so we can redirect the client to the post 
         } catch (err) {
+            console.log(err);
             res.sendStatus(403);
         }
     })
@@ -79,7 +80,7 @@ exports.delete_article_get = asyncHandler(async (req, res, next) => {
 exports.delete_article_post = [
     asyncHandler(async (req, res, next) => {
         try {
-            await verifyUser(req.token);
+            await verifyUser(req.headers.authorization);
             const article = Article.findById(req.params.id).exec();
             if (!article) {
                 res.sendStatus(404);

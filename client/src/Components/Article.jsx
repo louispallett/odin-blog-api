@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 
 import { Spinner } from "./tailwind-ex-elements";
 import imagePlaceholder from "/assets/images/image_placeholder.svg";
@@ -54,7 +54,6 @@ export default function Article() {
                     <h5 className="p-3 text-xl text-center font-sedan font-bold tracking-tight text-gray-100 sm:text-2xl sm:font-black sm:p-5">Comments</h5>
                 </div>
                 <Comments articleId={id} />
-                <PostComment />
             </div>
         </>
     )
@@ -126,6 +125,7 @@ function Comments({ articleId }) {
                     {/* <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p> */}
                 </div>
             )}
+            <PostComment articleId={articleId} />
         </div>
     )
 }
@@ -152,25 +152,56 @@ function PostComment({ articleId }) {
 
     useEffect(() => {
         const checkUser = async () => {
+            const token = localStorage.getItem("Authorization");
+            if (!token) {
+                setLoading(false);
+                return;
+            };
             try {
-                const response = await fetch(`/api/articles/${articleId}/comments/create`, { mode: "cors" });
-                if (!response.ok) {
-                    throw new Error(response.status);
+                const response = await fetch(`/api/articles/${articleId}/comments/create`, { 
+                    mode: "cors", 
+                    headers: { "Authorization": `${token}`} 
+                })
+                console.log(response.status);
+                if (response.status < 400) {
+                    setIsAuth(true);
+                    setError(null);
+                } else {
+                    setIsAuth(false);
                 }
-                console.log(response);
-                // if (actualData.authentication) {
-                //     setIsAuth(true);
-                // }
             } catch (err) {
-                console.log(err);
+                setError(err);
+                setIsAuth(false);
+            } finally {
+                setLoading(false);
             }
         }
         checkUser();
-    })
+    }, [])
     
     return (
         <>
-        
+            { isAuth && (
+                <form action="" className="flex flex-col gap-2.5 my-2 sm:gap-4 sm:my-4">
+                    <hr className="mx-5 sm:mx-10 border-slate-600"/>
+                    <textarea name="new-comment" id="new-comment" placeholder="Type here..."
+                    className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 dark:bg-transparent dark:text-white"></textarea>
+                    <button type="submit" className="text-sm rounded-md self-start px-2.5 py-1 font-bold bg-blue-800 sm:px-3.5 py-1.5">Post</button>
+                </form>
+            )}
+            { !isAuth && (
+                <div className="my-2 sm:my-4">
+                    <p><Link to="/users/sign-in" className="font-semibold leading-6 text-yellow-600 hover:text-yellow-500"> Login </Link> 
+                    or
+                    <Link to="/users/sign-up" className="font-semibold leading-6 text-yellow-600 hover:text-yellow-500"> Sign Up </Link> 
+                    to post a comment!</p>
+                </div>
+            )}
+            { loading && (
+                <div className="flex justify-center p-2.5 sm:p-4.5">
+                    <Spinner id="spinner" />
+                </div>
+            )}
         </>
     )
 }

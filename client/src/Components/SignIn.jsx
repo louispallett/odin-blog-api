@@ -27,7 +27,7 @@ export default function SignIn() {
                     setLoginError(response.data.error);
                     return;
                 }
-                localStorage.setItem("Authorization", `Bearer ${token}`);
+                localStorage.setItem("Authorization", token);
                 navigate("/dashboard/articles")
             }).catch(err => {
                 console.log(err);
