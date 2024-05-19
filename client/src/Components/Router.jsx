@@ -3,11 +3,6 @@
 OUTSTANDING TASKS
 ========================
 
-* Authorization * 
-
-    UPDATE: We may want to look into how we check more generally if req.user exists - what we could do is add the isAuth state to 
-    the router and then pass it down. It might make more sense than putting it everywhere!
-
 * Edit Site *
 
     Create a seperate front end (a whole seperate front end is probably the easiest for this, so that we can have a different
@@ -50,7 +45,6 @@ export default function Router() {
                 } else {
                     setIsAuth(false);
                 }
-                // console.log(isAuth);
             } catch (err) {
                 console.log(err)
             }
@@ -95,7 +89,7 @@ export default function Router() {
                 },
                 {
                     path: "sign-in",
-                    element: isAuth ? <Navigate to="/dashboard/articles/" replace /> : <SignIn isAuth={setIsAuth}/>
+                    element: isAuth ? <Navigate to="/dashboard/articles/" replace /> : <SignIn />
                 }
             ]
         },

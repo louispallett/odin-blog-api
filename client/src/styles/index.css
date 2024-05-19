@@ -24,6 +24,10 @@ select,
     animation: fade 800ms ease forwards;
 }
 
+#subtitle {
+    animation: fade-back 800ms ease forwards;
+}
+
 input[type="checkbox"] {
     cursor: pointer;
 }
@@ -44,6 +48,17 @@ input[type="checkbox"] {
 @keyframes fade {
     0% {
       transform: translateX(40px);
+      opacity: .4;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+}
+
+@keyframes fade-back {
+    0% {
+      transform: translateX(-40px);
       opacity: .4;
     }
     100% {
