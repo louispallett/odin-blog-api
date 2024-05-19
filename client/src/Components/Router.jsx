@@ -15,6 +15,7 @@ OUTSTANDING TASKS
 
 */
 
+import { useState, useEffect } from "react";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
 import Dashboard from "./Dashboard";
@@ -31,6 +32,32 @@ import UpdateArticle from "./writers/UpdateArticle";
 import NewArticle from "./writers/NewArticle";
 
 export default function Router() {
+    const [isAuth, setIsAuth] = useState(false);
+
+    useEffect(() => {
+        const checkUser = async () => {
+            const token = localStorage.getItem("Authorization");
+            if (!token) {
+                return;
+            };
+            try {
+                const response = await fetch("/api/verify", { 
+                    mode: "cors", 
+                    headers: { "Authorization": `${token}`} 
+                })
+                if (response.status < 400) {
+                    setIsAuth(true);
+                } else {
+                    setIsAuth(false);
+                }
+                // console.log(isAuth);
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        checkUser();
+    });
+
     const router = createBrowserRouter([
         {
             path: "/",
@@ -38,7 +65,7 @@ export default function Router() {
         },
         {
             path: "/dashboard",
-            element: <Dashboard />,
+            element: <Dashboard isAuth={isAuth}/>,
             children: [
                 {
                     path: "about",
@@ -64,11 +91,11 @@ export default function Router() {
             children: [
                 {
                     path: "sign-up",
-                    element: <SignUp />
+                    element: isAuth ? <Navigate to="/dashboard/articles/" replace /> : <SignUp />
                 },
                 {
                     path: "sign-in",
-                    element: <SignIn />
+                    element: isAuth ? <Navigate to="/dashboard/articles/" replace /> : <SignIn isAuth={setIsAuth}/>
                 }
             ]
         },

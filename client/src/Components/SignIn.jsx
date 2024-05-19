@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { Spinner } from "./tailwind-ex-elements";
 
-export default function SignIn({ writer }) {
+export default function SignIn() {
     // TODO: Need to return errors is email is not valid email
     // TODO: Need to ensure specific information comes through to user (i.e. password incorrect or user not found)
     // See the playlist on react-hook-form (https://www.youtube.com/playlist?list=PLC3y8-rFHvwjmgBr1327BA5bVXoQH-w5s)
@@ -28,7 +28,8 @@ export default function SignIn({ writer }) {
                     return;
                 }
                 localStorage.setItem("Authorization", token);
-                navigate("/dashboard/articles")
+                // navigate("/dashboard/articles")
+                window.location.assign("/dashboard/articles")
             }).catch(err => {
                 console.log(err);
             })

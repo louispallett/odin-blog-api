@@ -64,6 +64,16 @@ router.post("/sign-in",
         })(req, res, next);
     })
 );
+  
+
+router.get("/verify", asyncHandler(async (req, res, next) => {
+    try {
+        await verifyUser(req.headers.authorization);
+        res.sendStatus(200);
+    } catch (err) {
+        res.sendStatus(403)
+    }
+}));
 
 // Note that when you POST on postman under "raw" you need to select the type to JSON
 router.post("/sign-up", 
