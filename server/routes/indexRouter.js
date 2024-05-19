@@ -9,6 +9,7 @@ const { body, validationResult } = require("express-validator");
 const User = require("../models/user");
 const Article = require("../models/article");
 const Comment = require("../models/comment");
+const verifyUser = require("../config/verifyUser");
 
 router.get("/about", asyncHandler(async (req, res, next) => {
     const [users, articles, comments] = await Promise.all([
@@ -63,12 +64,6 @@ router.post("/sign-in",
         })(req, res, next);
     })
 );
-  
-
-// Possibly redundant
-// router.get("/sign-up", (req, res, next) => {
-    
-// });
 
 // Note that when you POST on postman under "raw" you need to select the type to JSON
 router.post("/sign-up", 
@@ -88,10 +83,14 @@ router.post("/sign-up",
         } 
         try {                                                                                                     
             bcrypt.hash(req.body.password, 10, async (err, hashedpassword) => {
+                if (err) {
+                    console.log(err);
+                }
                 const user = new User({
                     username: req.body.username,
                     email: req.body.email,
                     password: hashedpassword,
+                    writer: false,
                 });
                 await user.save();
                 res.json(user);

@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { Spinner } from "./tailwind-ex-elements";
 
-export default function SignIn() {
+export default function SignIn({ writer }) {
     // TODO: Need to return errors is email is not valid email
     // TODO: Need to ensure specific information comes through to user (i.e. password incorrect or user not found)
     // See the playlist on react-hook-form (https://www.youtube.com/playlist?list=PLC3y8-rFHvwjmgBr1327BA5bVXoQH-w5s)

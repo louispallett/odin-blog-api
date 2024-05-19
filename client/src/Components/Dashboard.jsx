@@ -35,7 +35,7 @@ export default function App() {
           <h2 className="text-sm">© 2024 LowPal, The Odin Project</h2>
         </a>
       </div>
-      <Link to="/users/sign-up" className="py-5 hover:text-yellow-400">
+      <Link to="/dashboard/writeforus" className="py-5 hover:text-yellow-400">
           <p className="font-bold">Write For Us</p>
       </Link>
     </footer>

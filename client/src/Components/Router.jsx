@@ -5,8 +5,8 @@ OUTSTANDING TASKS
 
 * Authorization * 
 
-    We've got to CHECK for authorization on the front end, checking whether the "authorzation" token is there and if it
-    is valid, then we can display different things to the user.
+    UPDATE: We may want to look into how we check more generally if req.user exists - what we could do is add the isAuth state to 
+    the router and then pass it down. It might make more sense than putting it everywhere!
 
 * Edit Site *
 
@@ -24,6 +24,11 @@ import Articles from "./Articles";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Users from "./Users";
+import WriteForUs from "./WriteForUs";
+import WriterDashboard from "./writers/WritersDashboard";
+import DeleteArticle from "./writers/DeleteArticle";
+import UpdateArticle from "./writers/UpdateArticle";
+import NewArticle from "./writers/NewArticle";
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -46,6 +51,10 @@ export default function Router() {
                 {
                     path: "articles/:id",
                     element: <Article />,
+                },
+                {
+                    path: "writeforus",
+                    element: <WriteForUs />
                 }
             ]
         },
@@ -60,6 +69,41 @@ export default function Router() {
                 {
                     path: "sign-in",
                     element: <SignIn />
+                }
+            ]
+        },
+        {
+            path: "/writers",
+            children: [
+                // All we need to do here is set a 'writer' property in the model to true in MongoDB. We can
+                // then collect the information and pass it down.
+                {
+                    path: "users",
+                    element: <Users />,
+                    children: [
+                        {
+                            path: "sign-in",
+                            element: <SignIn writer={true} />
+                        }
+                    ]
+                },
+                {
+                    path: "articles",
+                    element: <WriterDashboard />,
+                    children: [
+                        {
+                            path: "new",
+                            element: <NewArticle />,
+                        },
+                        {
+                            path: ":articleId/delete",
+                            element: <DeleteArticle />
+                        },
+                        {
+                            path: ":articleId/update",
+                            element: <UpdateArticle />
+                        }
+                    ]
                 }
             ]
         }
