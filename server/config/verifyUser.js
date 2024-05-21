@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 /*  
 jwt.verify takes the token and "decrypts" it to return the data about our user (this is 'authData'). 
@@ -12,7 +13,7 @@ NOTE: This function verifies that the token itself is valid. It ALSO returns use
 
 async function verifyUser(token) {
     return new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.SECRET_KEY, (err, authData) => {
+        jwt.verify(token, process.env.USER_KEY, (err, authData) => {
             if (err) {
                 reject(403); 
             } else {

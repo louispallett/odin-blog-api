@@ -11,6 +11,7 @@ const session = require("express-session");
 const indexRouter = require("./routes/indexRouter");
 const commentsRouter = require("./routes/commentsRouter");
 const articlesRouter = require("./routes/articlesRouter");
+const writerRouter = require("./routes/writerRouter.js");
 
 require('dotenv').config();
 
@@ -30,7 +31,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-    secret: process.env.SECRET_KEY,
+    secret: process.env.USER_KEY,
     resave: false,
     saveUninitialized: true
 }))
@@ -52,6 +53,7 @@ app.use((req, res, next) => {
 });  
 
 app.use("/api", indexRouter);
+app.use("/api/writers", writerRouter);
 app.use("/api/articles", articlesRouter);
 // See commentsRouter.js - we MUST use mergeParams: true in order to use parameters across files
 app.use("/api/articles/:articleId/comments", commentsRouter);

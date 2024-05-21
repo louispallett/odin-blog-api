@@ -11,6 +11,8 @@ const Article = require("../models/article");
 const Comment = require("../models/comment");
 const verifyUser = require("../config/verifyUser");
 
+require('dotenv').config();
+
 router.get("/about", asyncHandler(async (req, res, next) => {
     const [users, articles, comments] = await Promise.all([
         User.find().exec(),
@@ -26,10 +28,6 @@ router.get("/about", asyncHandler(async (req, res, next) => {
         }
     )
 }));
-
-router.get("/sign-in", (req, res, next) => {
-    // Possibly just check if they are authenticated here? And then can redirect on the frontend
-});
 
 router.post("/sign-in", 
     // We will also need to do client-side validation but this is just in case that fails 
@@ -57,7 +55,7 @@ router.post("/sign-in",
                 });
             } else {
                 req.login(user, next); // Note that this assigns req.user to user. It is also a req, so we need a response in this line (otherwise we receive an error)
-                jwt.sign({ user: user}, process.env.SECRET_KEY, { expiresIn: "10d" }, (err, token) => {
+                jwt.sign({ user: user }, process.env.USER_KEY, { expiresIn: "10d" }, (err, token) => {
                     res.json({ token: token }); // We send this to the front end and save it in local storage
                 });
             }

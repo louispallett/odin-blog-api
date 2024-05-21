@@ -33,6 +33,7 @@ export default function About() {
                 { siteData ? (
                     <ul className="flex justify-center items-center gap-7 text-yellow-500">
                         <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Users: {siteData.users}</li>
+                        {/* TODO: We need to change the below to show only PUBLISHED articles */}
                         <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg" >Articles: {siteData.articles}</li>
                         <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Comments: {siteData.comments}</li>
                     </ul>

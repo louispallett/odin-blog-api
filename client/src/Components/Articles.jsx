@@ -17,7 +17,7 @@ export default function Articles() {
                     throw new Error(response.status);
                 }
                 const actualData = await response.json();
-                setArticles(actualData);
+                setArticles(actualData.articles.filter(item => item.published));
                 setError(null);
             } catch (err) {
                 setError(err.message);
@@ -38,7 +38,7 @@ export default function Articles() {
             {articles && (
                 <div className="grid gap-2.5 lg:grid-cols-2 m-2.5 sm:m-5 sm:gap-5 justify-center">
                     {/* NOTE: The JSON data starts with "article", hence we have to access it like this! */}
-                    {articles.articles.map(item => (
+                    {articles.map(item => (
                         <ArticleCard data={item} />
                     ))}
                 </div>

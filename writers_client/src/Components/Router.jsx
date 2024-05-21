@@ -1,26 +1,15 @@
-/* 
-========================
-OUTSTANDING TASKS
-========================
-
-* Edit Site *
-
-    Create a seperate front end (a whole seperate front end is probably the easiest for this, so that we can have a different
-    authorization token etc.) where users can create articles etc.
-
-*/
-
 import { useState, useEffect } from "react";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
-import Dashboard from "./Dashboard";
-import About from "./About";
-import Article from "./Article";
-import Articles from "./Articles";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Users from "./Users";
-import WriteForUs from "./WriteForUs";
+import WriterDashboard from "./WritersDashboard";
+import DeleteArticle from "./DeleteArticle";
+import UpdateArticle from "./UpdateArticle";
+import NewArticle from "./NewArticle";
+import Article from "./Article";
+import Articles from "./Articles";
 
 export default function Router() {
     const [isAuth, setIsAuth] = useState(false);
@@ -29,10 +18,11 @@ export default function Router() {
         const checkUser = async () => {
             const token = localStorage.getItem("Authorization");
             if (!token) {
+                setIsAuth(false);
                 return;
             };
             try {
-                const response = await fetch("/api/verify", { 
+                const response = await fetch("/api/writers/verify", { 
                     mode: "cors", 
                     headers: { "Authorization": `${token}`} 
                 })
@@ -46,32 +36,38 @@ export default function Router() {
             }
         }
         checkUser();
-    });
-
+    }, []);
+    
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Navigate to="/dashboard/articles/" replace />
-        },
-        {
-            path: "/dashboard",
-            element: <Dashboard isAuth={isAuth}/>,
+            element: !isAuth && <Navigate to="/users/sign-in" replace />,
             children: [
                 {
-                    path: "about",
-                    element: <About />,
-                },
-                {
-                    path: "articles",
-                    element: <Articles />,
-                },
-                {
-                    path: "articles/:id",
-                    element: <Article />,
-                },
-                {
-                    path: "writeforus",
-                    element: <WriteForUs />
+                    path: "/dashboard",
+                    element: <WriterDashboard />,
+                    children: [
+                        {
+                            path: "articles",
+                            element: <Articles />
+                        },
+                        {
+                            path: "new",
+                            element: <NewArticle />,
+                        },
+                        {
+                            path: ":articleId/",
+                            element: <Article />
+                        },
+                        {
+                            path: ":articleId/delete",
+                            element: <DeleteArticle />
+                        },
+                        {
+                            path: ":articleId/update",
+                            element: <UpdateArticle />
+                        }
+                    ]
                 }
             ]
         },

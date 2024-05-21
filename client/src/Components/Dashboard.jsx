@@ -8,6 +8,7 @@ export default function App({ isAuth }) {
     localStorage.clear();
     window.location.assign("/dashboard/articles")
   }
+  
   return (
   <BackgroundContainer >
     <HeaderContainer>

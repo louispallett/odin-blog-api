@@ -58,6 +58,7 @@ exports.new_article_post = [
                synopsis: req.body.synopsis,
                content: req.body.content,
                image_url: req.body.image_url, // We'll have to change this after
+               published: false,
            });
        
            await new_article.save();
