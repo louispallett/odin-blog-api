@@ -88,3 +88,12 @@ exports.verify_writer = asyncHandler(async (req, res, next) => {
         res.sendStatus(403)
     }
 });
+
+exports.writer_new_get = asyncHandler(async (req, res, next) => {
+    try {
+        res.json({ key: process.env.TINYMCE_API_KEY});
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500)
+    }
+})

@@ -37,7 +37,7 @@ exports.new_article_post = [
     // TODO: Update 'image_url' with image file via cloudinary - see inventory application project
     body("title")
         .trim()
-        .isLength({ min: 2, max: 40 }).withMessage("Title must be between 2 and 50 characters in length")
+        .isLength({ min: 2, max: 40 }).withMessage("Title must be between 2 and 40 characters in length")
         .escape(),
     body("content")
         .trim()

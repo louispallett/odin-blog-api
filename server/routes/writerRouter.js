@@ -9,4 +9,6 @@ router.post("/sign-up", writer_controller.writer_sign_up);
 
 router.get("/verify", writer_controller.verify_writer);
 
+router.get("/new", writer_controller.writer_new_get);
+
 module.exports = router;

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 import { Spinner } from "./tailwind-ex-elements";
-import imagePlaceholder from "/assets/images/image_placeholder.svg";
 
 export default function Articles() {
     const [publishedArticles, setPublishedArticles] = useState(null);
@@ -33,56 +32,65 @@ export default function Articles() {
     }, [])
 
     return (
-    <div className="grid grid-cols-2">
-        <div>
-            <div className="flex flex-col p-2.5 sm:p-5 sm:max-w-5xl">
-                <div className="bg-blue-950 rounded-b-none rounded-lg">
-                    <h5 className="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 lg:text-4xl sm:font-black sm:p-5">Your Published Articles</h5>
+    <>
+        <div className="flex flex-col md:grid md:grid-cols-2">
+            <div>
+                <div className="flex flex-col p-2.5 sm:p-5 sm:max-w-5xl">
+                    <div className="bg-blue-950 rounded-b-none rounded-lg">
+                        <h5 className="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 lg:text-4xl sm:font-black sm:p-5">Your Published Articles</h5>
+                    </div>
+                    <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow p-3 sm:p-5 dark:bg-slate-700">
+                        {loading && (
+                            <div className="flex justify-center items-center">
+                                <Spinner id="spinner"/>
+                            </div>
+                        )}
+                        {publishedArticles && (
+                            publishedArticles.map(item => (
+                                <ArticleCard data={item} />
+                            ))
+                        )}
+                        {error && (
+                            <div className="text-white">
+                                <img src="" alt="" className="error"/>
+                                <p>ERROR: {error}</p>
+                                <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow p-3 sm:p-5 dark:bg-slate-700">
-                    {loading && (
-                        <Spinner id="spinner"/>
-                    )}
-                    {publishedArticles && (
-                        publishedArticles.map(item => (
-                            <ArticleCard data={item} />
-                        ))
-                    )}
-                    {error && (
-                        <div className="text-white">
-                            <img src="" alt="" className="error"/>
-                            <p>ERROR: {error}</p>
-                            <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p>
-                        </div>
-                    )}                
+            </div>
+            <div>
+                <div className="flex flex-col p-2.5 sm:p-5 sm:max-w-5xl">
+                    <div className="bg-blue-950 rounded-b-none rounded-lg">
+                        <h5 className="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 lg:text-4xl sm:font-black sm:p-5">Your Unpublished Articles</h5>
+                    </div>
+                    <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow p-3 sm:p-5 dark:bg-slate-700">
+                        {loading && (
+                            <div className="flex justify-center items-center">
+                                <Spinner id="spinner"/>
+                            </div>
+                        )}
+                        {unpublishedArticles && (
+                            unpublishedArticles.map(item => (
+                                <ArticleCard data={item} />
+                            ))
+                        )}
+                        {error && (
+                            <div className="text-white">
+                                <img src="" alt="" className="error"/>
+                                <p>ERROR: {error}</p>
+                                <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p>
+                            </div>
+                        )}
+                        <Link to="/dashboard/new" className="flex justify-center items-center m-2.5 sm:mx-5">
+                            <button className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 font-semibold leading-6 text-white shadow-sm sm:max-w-5xl hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">New Article</button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
-        <div>
-            <div className="flex flex-col p-2.5 sm:p-5 sm:max-w-5xl">
-                <div className="bg-blue-950 rounded-b-none rounded-lg">
-                    <h5 className="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 lg:text-4xl sm:font-black sm:p-5">Your Unpublished Articles</h5>
-                </div>
-                <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow p-3 sm:p-5 dark:bg-slate-700">
-                    {loading && (
-                        <Spinner id="spinner"/>
-                    )}
-                    {unpublishedArticles && (
-                        unpublishedArticles.map(item => (
-                            <ArticleCard data={item} />
-                        ))
-                    )}
-                    {error && (
-                        <div className="text-white">
-                            <img src="" alt="" className="error"/>
-                            <p>ERROR: {error}</p>
-                            <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p>
-                        </div>
-                    )}                 
-                </div>
-            </div>
-        </div>
-    </div>
+    </>
     )
 }
 
