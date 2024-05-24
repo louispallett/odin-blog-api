@@ -23,7 +23,7 @@ router.get("/about", asyncHandler(async (req, res, next) => {
     res.json(
         {
             users: users.length,
-            articles: articles.length,
+            articles: articles.filter(item => item.published).length,
             comments: comments.length,
         }
     )

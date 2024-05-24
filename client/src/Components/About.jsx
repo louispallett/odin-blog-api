@@ -29,16 +29,16 @@ export default function About() {
     return (
         <>
             <BoxContainer>
-                <h1 className="font-jaro text-center my-5 sm:text-3xl sm:mb-15 dark:text-white">Just the ramblings of a Bristol-based developer</h1>
+                <h1 className="font-jaro text-center my-5 text-xl sm:text-3xl sm:mb-15 dark:text-white">Just the ramblings of a Bristol-based developer</h1>
                 { siteData ? (
-                    <ul className="flex justify-center items-center gap-7 text-yellow-500">
+                    <ul className="flex list-none justify-center items-center gap-7 text-yellow-500">
                         <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Users: {siteData.users}</li>
                         {/* TODO: We need to change the below to show only PUBLISHED articles */}
                         <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg" >Articles: {siteData.articles}</li>
                         <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Comments: {siteData.comments}</li>
                     </ul>
                 ) : (
-                        <Spinner id="spinner"/>
+                    <Spinner id="spinner"/>
                 )}
                 <div>
                     
