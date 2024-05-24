@@ -98,7 +98,6 @@ router.post("/sign-up",
                     username: req.body.username,
                     email: req.body.email,
                     password: hashedpassword,
-                    writer: false,
                 });
                 await user.save();
                 res.json(user);

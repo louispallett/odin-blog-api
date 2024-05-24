@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       spacing: {
-        "128": "40em"
+        "minArticle": "40em",
+        "maxArticle": "70em"
       }
     },
     fontFamily: {

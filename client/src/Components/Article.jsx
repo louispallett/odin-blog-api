@@ -62,14 +62,8 @@ export default function Article() {
 }
 
 function ArticleBody({ data }) {
-    const stringToHTML = (str) => {
-        const dom = document.createElement("div");
-        dom.innerHTML = str;
-        return dom;
-    }
-
     return (
-        <div className="flex flex-col p-2.5 sm:p-5 sm:min-w-128">
+        <div className="flex flex-col p-2.5 sm:p-5 sm:min-w-minArticle sm:max-w-maxArticle">
             <div className="bg-blue-950 rounded-b-none rounded-lg">
                 <h5 className="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 sm:text-4xl sm:font-black sm:p-5">{data.title}</h5>
             </div>
