@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
-const passport = require("../config/passport_writer");
+const passport = require("../config/passport");
 const { body, validationResult } = require("express-validator");
 
 require('dotenv').config();
@@ -59,7 +59,7 @@ exports.writer_sign_in = [
             res.json({ message: "Validation Failed", errors: errors.array() })
             return;
         } 
-        passport.authenticate("local", (err, user, info) => {
+        passport.authenticate("writer_local", (err, user, info) => {
             if (err) return next(err);
             if (!user) {
                 res.json({

@@ -47,7 +47,7 @@ router.post("/sign-in",
             return;
         } 
         // To see full information on passport.authenticate, check out the docs here (https://github.com/russl8/BeGrate)
-        passport.authenticate("local", (err, user, info) => {
+        passport.authenticate("user_local", (err, user, info) => {
             if (err) return next(err);
             if (!user) {
                 res.json({
