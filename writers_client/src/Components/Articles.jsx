@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { Spinner } from "./tailwind-ex-elements";
 
@@ -9,16 +9,25 @@ export default function Articles() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const getArticles = async () => {
+            const token = localStorage.getItem("Authorization");
+            if (!token) {
+                navigate("/sign-in");
+            };
             try {
-                const response = await fetch("/api/articles/", { mode: "cors" });
+                const response = await fetch("/api/articles/writers_articles", { 
+                    mode: "cors",
+                    headers: { "Authorization": token}
+                });
                 if (!response.ok) {
                     throw new Error(response.status);
                 }
                 const actualData = await response.json();
-                setPublishedArticles(actualData.articles.filter(item => item.published));
-                setUnpublishedArticles(actualData.articles.filter(item => !item.published));
+                setPublishedArticles(actualData.filteredArticles.filter(item => item.published));
+                setUnpublishedArticles(actualData.filteredArticles.filter(item => !item.published));
                 setError(null);
             } catch (err) {
                 setError(err.message);

@@ -170,7 +170,7 @@ function PostComment({ articleId }) {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json", 
-                    "Authorization": `${token}`
+                    "Authorization": token
                 },
                 body: JSON.stringify(data)
             }).then(() => {
@@ -195,7 +195,7 @@ function PostComment({ articleId }) {
             try {
                 const response = await fetch(`/api/articles/${articleId}/comments/create`, { 
                     mode: "cors", 
-                    headers: { "Authorization": `${token}`} 
+                    headers: { "Authorization": token } 
                 })
                 console.log(response.status);
                 if (response.status < 400) {

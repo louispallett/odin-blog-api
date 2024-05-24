@@ -12,6 +12,20 @@ exports.article_list = asyncHandler(async (req, res, next) => {
     res.json({ articles })
 });
 
+exports.writer_article_list = asyncHandler(async (req, res, next) => {
+    try {
+        const [userData, allArticles] = await Promise.all([
+            verifyWriter(req.headers.authorization),
+            Article.find().sort({ date: 1 }).exec()
+        ]);
+        const filteredArticles = allArticles.filter(article => article.author == userData.user._id);
+        res.json({ filteredArticles })
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(403)
+    }
+})
+
 exports.article_detail = asyncHandler(async (req, res, next) => {
     const article = await Article.findById(req.params.id)
         .populate({ path: "author", select: "username -_id" })

@@ -6,6 +6,8 @@ const verifyToken = require("../config/verifyToken");
 
 router.get("/", article_controller.article_list);
 
+router.get("/writers_articles", article_controller.writer_article_list)
+
 // Not redundant - we need to verify their token to allow them onto this page!
 router.get("/create", article_controller.new_article_get);
 
