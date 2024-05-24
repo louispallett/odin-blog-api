@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        "128": "40em"
+      }
+    },
     fontFamily: {
       jaro: ["Jaro", "sans-serif"],
       sedan: ["Sedan", "sans-serif"],

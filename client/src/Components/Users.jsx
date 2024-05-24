@@ -14,7 +14,7 @@ export default function Users() {
                                 <h1 className="text-5xl font-jaro font-black text-white">Guardian</h1>
                             </Link>
                         </div>
-                        <h2 className="text-center text-gray-100 font-bold leading-9 tracking-tight">News you can trust</h2>
+                        <h2 className="text-sm text-center text-gray-100 font-bold leading-9 tracking-tight">News you can trust</h2>
                     </div>
                     <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-lg">
                         <Outlet />

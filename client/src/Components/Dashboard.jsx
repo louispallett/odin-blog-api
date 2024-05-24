@@ -19,7 +19,7 @@ export default function App({ isAuth }) {
             <h1 id="main-title" className="text-2xl font-jaro sm:text-4xl font-black text-white">Guardian</h1>
           </Link>
         </div>
-        <ul className="list flex items-center gap-2.5 sm:gap-5 font-bold sm:text-xl text-slate-100">
+        <ul className="list-none flex items-center gap-2.5 sm:gap-5 font-bold sm:text-xl text-slate-100">
           <Link to="/dashboard/articles" className="py-5 hover:text-yellow-400">
             <li>Home</li>
           </Link>

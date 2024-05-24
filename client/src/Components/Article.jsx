@@ -51,7 +51,7 @@ export default function Article() {
                     {/* <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p> */}
                 </div>
             )}
-            <div className="flex flex-col p-2.5 sm:p-5 sm:max-w-5xl">
+            <div className="flex flex-col p-2.5 sm:p-5">
                 <div className="bg-blue-950 rounded-b-none rounded-lg">
                     <h5 className="p-3 text-xl text-center font-sedan font-bold tracking-tight text-gray-100 sm:text-2xl sm:font-black sm:p-5">Comments</h5>
                 </div>
@@ -62,8 +62,14 @@ export default function Article() {
 }
 
 function ArticleBody({ data }) {
+    const stringToHTML = (str) => {
+        const dom = document.createElement("div");
+        dom.innerHTML = str;
+        return dom;
+    }
+
     return (
-        <div className="flex flex-col p-2.5 sm:p-5 sm:max-w-5xl">
+        <div className="flex flex-col p-2.5 sm:p-5 sm:min-w-128">
             <div className="bg-blue-950 rounded-b-none rounded-lg">
                 <h5 className="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 sm:text-4xl sm:font-black sm:p-5">{data.title}</h5>
             </div>
@@ -74,9 +80,9 @@ function ArticleBody({ data }) {
                 <img src={imagePlaceholder} alt="" className="object-contain max-h-60 max-w-full" />
                 )}
                 <p className="m-2 p-1 bg-blue-950 self-end font-bold rounded-lg text-slate-100 sm:mx-4 sm:p-1.5">By {data.author.username}</p>
-                <p className="self-start italic px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100">{data.synopsis}</p>
+                <p className="italic px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100">{data.synopsis}</p>
                 <hr className="mx-3.5 sm:mx-5" />
-                <p className="self-start px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100">{data.content}</p>
+                <div className="px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100" dangerouslySetInnerHTML={{__html: data.content }}></div>
             </div>
         </div>
 

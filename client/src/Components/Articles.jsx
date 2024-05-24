@@ -33,7 +33,9 @@ export default function Articles() {
     return (
         <>
             {loading && (
-                <Spinner id="spinner"/>
+                <div className="my-10">
+                    <Spinner id="spinner"/>
+                </div>
             )}
             {articles && (
                 <div className="grid gap-2.5 lg:grid-cols-2 m-2.5 sm:m-5 sm:gap-5 justify-center">
