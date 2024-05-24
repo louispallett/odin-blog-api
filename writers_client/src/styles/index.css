@@ -13,13 +13,6 @@ select:hover {
     outline: none;
 }
 
-select {
-    cursor: pointer;
-    background-color: #4c0082cc;
-}
-
-input,
-select,
 #main-title {
     animation: fade 800ms ease forwards;
 }

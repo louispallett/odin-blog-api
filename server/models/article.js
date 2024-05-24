@@ -4,7 +4,7 @@ const { DateTime } = require("luxon");
 
 const Article = new Schema(
     {
-        author: { type: Schema.Types.ObjectId, ref: "User", required: true },
+        author: { type: Schema.Types.ObjectId, ref: "Writer", required: true },
         title: { type: String, required: true },
         synopsis: { type: String, required: true },
         content: { type: String, required: true },

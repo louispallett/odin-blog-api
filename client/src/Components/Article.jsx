@@ -163,7 +163,7 @@ function PostComment({ articleId }) {
         if (!token) {
             setLoading(false);
             return;
-        };
+        }
         setIsPending(true);
         try {
             fetch(`/api/articles/${articleId}/comments/create`, {

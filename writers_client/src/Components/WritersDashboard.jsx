@@ -24,9 +24,7 @@ export default function WriterDashboard() {
                     </ul>
                 </HeaderContainerInner>
             </HeaderContainer>  
-            <div className="grid max-w-full">
-                <Outlet />
-            </div>
+            <Outlet />
             <footer className="flex px-3 py-3 justify-between items-center rounded-lg shadow m-4 bg-blue-950 text-white sm:px-5">
                 <div>
                     <a href="https://github.com/louispallett/odin-blog-api">

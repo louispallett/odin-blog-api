@@ -7,14 +7,14 @@ const verifyToken = require("../config/verifyToken");
 router.get("/", article_controller.article_list);
 
 // Not redundant - we need to verify their token to allow them onto this page!
-router.get("/create", verifyToken, article_controller.new_article_get);
+router.get("/create", article_controller.new_article_get);
 
-router.post("/create", verifyToken, article_controller.new_article_post);
+router.post("/create_article", article_controller.new_article_post);
 
 router.get("/:id", article_controller.article_detail);
 
-router.get("/:id/delete", verifyToken, article_controller.delete_article_get);
+router.get("/:id/delete", article_controller.delete_article_get);
 
-router.post("/:id/delete", verifyToken, article_controller.delete_article_post);
+router.post("/:id/delete", article_controller.delete_article_post);
 
 module.exports = router;

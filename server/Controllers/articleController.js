@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
 const Article = require("../models/article");
-const verifyUser = require("../config/verifyUser");
+const verifyWriter = require("../config/verifyWriter");
 
 exports.article_list = asyncHandler(async (req, res, next) => {
     const articles = await Article.find().sort({ date:1 }).exec();
@@ -26,7 +26,7 @@ exports.article_detail = asyncHandler(async (req, res, next) => {
 // Using templates, we would just render the page, so this probably isn't needed!
 exports.new_article_get = asyncHandler(async (req, res, next) => {
     try {
-        await verifyUser(req.token);
+        await verifyWriter(req.token);
         res.json({ access: true });
     } catch (err) {
         res.sendStatus(403)
@@ -39,10 +39,12 @@ exports.new_article_post = [
         .trim()
         .isLength({ min: 2, max: 40 }).withMessage("Title must be between 2 and 40 characters in length")
         .escape(),
+    body("synopsis")
+        .trim()
+        .isLength({ min: 2, max: 200 }),
     body("content")
         .trim()
-        .isLength({ min: 200, max: 5000 }).withMessage("Content must be between 200 and 5000 characters in length")
-        .escape(),
+        .isLength({ min: 2, max: 5000 }).withMessage("Content must be between 2 and 5000 characters in length"),
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -50,7 +52,7 @@ exports.new_article_post = [
             return;
         }
         try {
-            const userData = await verifyUser(req.headers.authorization);
+            const userData = await verifyWriter(req.headers.authorization);
             const new_article = new Article({
                author: userData.user._id,
                date: new Date(),
@@ -81,7 +83,7 @@ exports.delete_article_get = asyncHandler(async (req, res, next) => {
 exports.delete_article_post = [
     asyncHandler(async (req, res, next) => {
         try {
-            await verifyUser(req.headers.authorization);
+            await verifyWriter(req.headers.authorization);
             const article = Article.findById(req.params.id).exec();
             if (!article) {
                 res.sendStatus(404);

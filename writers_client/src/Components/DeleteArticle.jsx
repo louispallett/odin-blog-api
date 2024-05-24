@@ -1,6 +1,6 @@
 export default function DeleteArticle() {
     return (
-        <div>
+        <div className="grid justify-center max-w-full">
             
         </div>
     )

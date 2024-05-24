@@ -69,6 +69,7 @@ export default function Articles() {
                         {loading && (
                             <div className="flex justify-center items-center">
                                 <Spinner id="spinner"/>
+                                <p className="my-10"></p>
                             </div>
                         )}
                         {unpublishedArticles && (
