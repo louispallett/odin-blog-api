@@ -28,7 +28,7 @@ exports.writer_article_list = asyncHandler(async (req, res, next) => {
 
 exports.article_detail = asyncHandler(async (req, res, next) => {
     const article = await Article.findById(req.params.id)
-        .populate({ path: "author", select: "username -_id" })
+        .populate({ path: "author", select: "username" })
         .exec();
     if (!article) {
         res.sendStatus(404);
@@ -128,19 +128,20 @@ exports.publish = asyncHandler(async (req, res, next) => {
     try {
         const article = await Article.findById(req.params.id).exec();
         const updatedArticle = new Article({
-            author: article.user._id,
-            date: new Date(),
+            author: article.author,
+            date: article.date,
             title: article.title,
             synopsis: article.synopsis,
             content: article.content,
             image_url: article.image_url, // We'll have to change this after
-            published: true,            
+            published: !article.published,
+            _id: req.params.id     
         });
         await Article.findByIdAndUpdate(req.params.id, updatedArticle);
         res.sendStatus(200);
     } catch (err) {
         console.log(err);
-        res.sendStatus(404);
+        res.sendStatus(403);
     }
 })
 

@@ -50,8 +50,31 @@ export default function UpdateArticle() {
         }
     }
 
-    const publishArticle = async (e) => {
-        e.preventDefault();
+    const confirmPublish = () => {
+        const element = document.getElementById("publishConfirm");
+        element.style.display = "block";
+    }
+
+    const cancelPublish = () => {
+        const element = document.getElementById("publishConfirm");
+        element.style.display = "none";
+    }
+
+    const publishArticle = async () => {
+        cancelPublish();
+        setPending(true);
+        try {
+            const response = await fetch(`/api/articles/${id}/publish`, {
+                method: "POST"
+            });
+            if (!response.ok) {
+                console.error("Error in response:", response.status, response.statusText);
+            }
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setPending(false);
+        }
     }
 
     useEffect(() => {
@@ -89,6 +112,7 @@ export default function UpdateArticle() {
         }
         getArticleData();
     }, [pending])
+
 
     return (
         <div className="grid justify-center max-w-full">
@@ -144,12 +168,12 @@ export default function UpdateArticle() {
                                 defaultValue={articleData.image_url}
                                 />
                             </div>
-                            <div className="flex tems-center font-bold text-sm text-slate-100 gap:2.5 sm:gap-3.5">
-                                <p className="bg-blue-700 py-1.5 px-2.5 sm:px-3.5 rounded-md">Publication status: </p>
+                            <div className="flex tems-center font-bold text-sm text-slate-100">
+                                <p className="bg-blue-700 py-1.5 px-2.5 sm:px-3.5 rounded-s-md">Publication status: </p>
                                 { articleData.published ? (
-                                    <p className="bg-green-700 py-1.5 px-2.5 sm:px-3.5 rounded-md">Published</p>
+                                    <p className="bg-green-700 py-1.5 px-2.5 sm:px-3.5 rounded-e-md">Published</p>
                                 ) : (
-                                    <p className="bg-red-700 py-1.5 px-2.5 sm:px-3.5 rounded-md">Not Published</p>
+                                    <p className="bg-red-700 py-1.5 px-2.5 sm:px-3.5 rounded-e-md">Not Published</p>
                                 )}
                             </div>
                             { loading && (
@@ -192,10 +216,10 @@ export default function UpdateArticle() {
                             )}
                         </form>
                         <div className="grid grid-cols-2 gap-1.5 sm:gap-2.5">
-                            <button onClick={publishArticle}
+                            <button onClick={confirmPublish}
                                 className="flex w-full justify-center rounded-md bg-yellow-600 px-3 mt-2.5 py-1.5 font-semibold leading-6 text-white shadow-sm sm:max-w-5xl hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
                             >
-                                { pending ? ( <Spinner id="spinner" /> ) : ( <span>Publish</span> )}
+                                { pending ? ( <Spinner id="spinner" /> ) : (articleData.published ? ( <span>Unpublish</span> ) : ( <span>Publish</span> ))}
                             </button>
                             <button
                                 className="flex w-full justify-center rounded-md bg-red-600 px-3 mt-2.5 py-1.5 font-semibold leading-6 text-white shadow-sm sm:max-w-5xl hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
@@ -204,11 +228,25 @@ export default function UpdateArticle() {
                             </button>
                         </div>
                     </>
-                    ): (
+                    ) : (
                         <div className="flex justify-center items-center my-10">
                             <Spinner id="spinner" />
                         </div>
                     )}
+                { articleData && (
+                    <div className="hidden dark:text-slate-100 p-3.5 sm:p-5" id="publishConfirm">
+                        <h1 className="text-xl font-bold tracking-tight text-nowrap py-2.5 max-sm:text-wrap">Publish this article?</h1>
+                        <p className="">Publishing this article will make it visible to the public</p>
+                        <div className="flex justify-center gap-2.5 sm:gap-3.5">
+                            <button onClick={publishArticle}
+                                className="flex justify-center w-full rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
+                                { articleData.published ? ( <span>Unpublish</span> ) : ( <span>Publish</span> ) }</button>
+                            <button onClick={cancelPublish}
+                                className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                                Cancel</button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     </div>
