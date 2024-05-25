@@ -86,6 +86,7 @@ function Comments({ articleId }) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [newComment, setNewComment] = useState(true)
 
     useEffect(() => {
         const getComments = async () => {
@@ -105,7 +106,7 @@ function Comments({ articleId }) {
             }
         }
         getComments();
-    }, [data])
+    }, [newComment])
     
     return (
         <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow px-2.5 py-3.5 sm:px-3 sm:py-4 dark:bg-slate-700 dark:text-slate-100">
@@ -126,7 +127,7 @@ function Comments({ articleId }) {
                     {/* <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p> */}
                 </div>
             )}
-            <PostComment articleId={articleId} setData={setData}/>
+            <PostComment articleId={articleId} newComment={newComment} setNewComment={setNewComment}/>
         </div>
     )
 }
@@ -146,7 +147,7 @@ function Comment({ data }) {
     )
 }
 
-function PostComment({ articleId, setData }) {
+function PostComment({ articleId, newComment, setNewComment }) {
     const form = useForm();
     const { register, control, handleSubmit, formState, watch } = form;
     const { errors } = formState;
@@ -172,8 +173,9 @@ function PostComment({ articleId, setData }) {
                 },
                 body: JSON.stringify(data)
             })
-            setData(null);
+            setNewComment(!newComment);
             setIsPending(false);
+            document.getElementById("content").value = "";
         } catch (err) {
             console.log(err);
         }
@@ -218,8 +220,8 @@ function PostComment({ articleId, setData }) {
                             {...register("content", {
                                 required: "This input is required!",
                                 maxLength: {
-                                    value: 200,
-                                    message: "Cannot be longer than 200 characters"
+                                    value: 600,
+                                    message: "Cannot be longer than 600 characters"
                                 }
                             })}>
                         </textarea>
