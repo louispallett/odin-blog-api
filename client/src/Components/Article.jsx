@@ -50,7 +50,7 @@ export default function Article() {
                     {/* <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p> */}
                 </div>
             )}
-            <div className="flex flex-col p-2.5 sm:p-5">
+            <div className="flex flex-col p-2.5 sm:p-5 sm:min-w-minArticle sm:max-w-maxArticle">
                 <div className="bg-blue-950 rounded-b-none rounded-lg">
                     <h5 className="p-3 text-xl text-center font-sedan font-bold tracking-tight text-gray-100 sm:text-2xl sm:font-black sm:p-5">Comments</h5>
                 </div>
@@ -109,7 +109,7 @@ function Comments({ articleId }) {
     }, [newComment])
     
     return (
-        <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow px-2.5 py-3.5 sm:px-3 sm:py-4 dark:bg-slate-700 dark:text-slate-100">
+        <div className="flex flex-col bg-white rounded-lg rounded-t-none shadow px-2.5 py-3.5 sm:px-3 sm:py-4 dark:bg-slate-700 dark:text-slate-100">
             {loading && (
                 <div className="flex justify-center mx-28 my-10">
                     <Spinner id="spinner"/>
