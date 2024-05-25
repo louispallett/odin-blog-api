@@ -75,7 +75,7 @@ function ArticleBody({ data }) {
                 <p className="m-2 p-1 bg-blue-950 self-end font-bold rounded-lg text-slate-100 sm:mx-4 sm:p-1.5">By {data.author.username}</p>
                 <p className="italic px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100">{data.synopsis}</p>
                 <hr className="mx-3.5 sm:mx-5" />
-                <div className="px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100" dangerouslySetInnerHTML={{__html: data.content }}></div>
+                <div className="px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100" dangerouslySetInnerHTML={{__html: data.content }} id="articleBody"></div>
             </div>
         </div>
 
@@ -105,7 +105,7 @@ function Comments({ articleId }) {
             }
         }
         getComments();
-    }, [])
+    }, [data])
     
     return (
         <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow px-2.5 py-3.5 sm:px-3 sm:py-4 dark:bg-slate-700 dark:text-slate-100">
@@ -126,7 +126,7 @@ function Comments({ articleId }) {
                     {/* <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p> */}
                 </div>
             )}
-            <PostComment articleId={articleId} />
+            <PostComment articleId={articleId} setData={setData}/>
         </div>
     )
 }
@@ -146,7 +146,7 @@ function Comment({ data }) {
     )
 }
 
-function PostComment({ articleId }) {
+function PostComment({ articleId, setData }) {
     const form = useForm();
     const { register, control, handleSubmit, formState, watch } = form;
     const { errors } = formState;
@@ -164,22 +164,18 @@ function PostComment({ articleId }) {
         }
         setIsPending(true);
         try {
-            fetch(`/api/articles/${articleId}/comments/create`, {
+            await fetch(`/api/articles/${articleId}/comments/create`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json", 
                     "Authorization": token
                 },
                 body: JSON.stringify(data)
-            }).then(() => {
-                console.log("Successfully Submitted");
-                // Reload the page
-                window.location.reload();
-                })
+            })
+            setData(null);
+            setIsPending(false);
         } catch (err) {
             console.log(err);
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -195,7 +191,6 @@ function PostComment({ articleId }) {
                     mode: "cors", 
                     headers: { "Authorization": token } 
                 })
-                console.log(response.status);
                 if (response.status < 400) {
                     setIsAuth(true);
                     setError(null);
@@ -217,25 +212,31 @@ function PostComment({ articleId }) {
             { isAuth && (
                 <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-2.5 my-2 sm:gap-4 sm:my-4">
                     <hr className="mx-5 sm:mx-10 border-slate-600"/>
-                    <textarea name="content" id="content" placeholder="Type here..."
-                    className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6 dark:bg-transparent dark:text-white"
-                    {...register("content", {
-                        required: "This input is required!",
-                        maxLength: {
-                            value: 200,
-                            message: "Cannot be longer than 200 characters"
-                        }
-                    })}></textarea>
-                    <span className="text-sm font-bold text-red-400">
-                        <p>{errors.content?.message}</p>
-                    </span>
-                    { isPending ? (
-                        <div className="flex justify-center">
-                            <Spinner id="spinner"/>
-                        </div>
-                    ) : (
-                        <button type="submit" className="text-sm rounded-md self-start px-2.5 py-1 font-bold bg-yellow-600 shadow-sm sm:px-3.5 py-1.5 hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">Post</button>
-                    )}
+                    <div className="flex justify-center gap-2.5 sm:gap-5">
+                        <textarea name="content" id="content" placeholder="Type here..."
+                            className="block w-full rounded-md py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:bg-blue-950 dark:bg-transparent dark:text-white"
+                            {...register("content", {
+                                required: "This input is required!",
+                                maxLength: {
+                                    value: 200,
+                                    message: "Cannot be longer than 200 characters"
+                                }
+                            })}>
+                        </textarea>
+                        <span className="flex text-sm font-bold text-red-400">
+                            <p>{errors.content?.message}</p>
+                        </span>
+                        { isPending ? (
+                            <div className="flex justify-center">
+                                <Spinner id="spinner"/>
+                            </div>
+                        ) : (
+                            <button type="submit" 
+                                className="text-sm rounded-md px-2.5 py-1 font-bold bg-yellow-600 shadow-sm sm:px-3.5 py-1.5 hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
+                                Post
+                            </button>
+                        )}
+                    </div>
                 </form>
             )}
             { !isAuth && (
