@@ -106,7 +106,7 @@ export default function Articles() {
 
 function ArticleCard({ data }) {
     return (
-        <Link to={data._id} className="border-l-2 border-black my-1.5 sm:my-2.5 hover:opacity-80 dark:border-white">
+        <Link to={`/dashboard/${data._id}/update`} className="border-l-2 border-black my-1.5 sm:my-2.5 hover:opacity-80 dark:border-white">
             <div className="flex flex-col pl-1.5 sm:pl-2.5">
                 <h5 className="font-bold tracking-tight text-gray-900 sm:text-lg sm:font-black dark:text-gray-100">{data.title}</h5>
                 <p className="text-sm italic dark:text-slate-100">{data.synopsis}</p>

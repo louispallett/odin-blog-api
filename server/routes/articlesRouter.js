@@ -15,6 +15,10 @@ router.post("/create_article", article_controller.new_article_post);
 
 router.get("/:id", article_controller.article_detail);
 
+router.post("/:id/update", article_controller.update);
+
+router.post("/:id/publish", article_controller.publish);
+
 router.get("/:id/delete", article_controller.delete_article_get);
 
 router.post("/:id/delete", article_controller.delete_article_post);

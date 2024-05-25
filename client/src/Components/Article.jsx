@@ -1,7 +1,6 @@
 import { DevTool } from "@hookform/devtools";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { useParams, Link } from "react-router-dom"
 
 import { Spinner } from "./tailwind-ex-elements";
@@ -149,7 +148,6 @@ function Comment({ data }) {
 
 function PostComment({ articleId }) {
     const form = useForm();
-    const navigate = useNavigate();
     const { register, control, handleSubmit, formState, watch } = form;
     const { errors } = formState;
     const [isPending, setIsPending] = useState(false);

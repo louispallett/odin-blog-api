@@ -56,15 +56,15 @@ export default function Router() {
                             element: <NewArticle />,
                         },
                         {
-                            path: ":articleId/",
+                            path: ":id",
                             element: <Article />
                         },
                         {
-                            path: ":articleId/delete",
+                            path: ":id/delete",
                             element: <DeleteArticle />
                         },
                         {
-                            path: ":articleId/update",
+                            path: ":id/update",
                             element: <UpdateArticle />
                         }
                     ]

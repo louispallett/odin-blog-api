@@ -1,7 +1,7 @@
-// import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Editor } from '@tinymce/tinymce-react';
+import { useNavigate } from "react-router-dom";
 
 import { Spinner } from "./tailwind-ex-elements";
 
@@ -15,15 +15,11 @@ export default function NewArticle() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const editorRef = useRef(null);
-
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
-    };
+    const navigate = useNavigate();
 
     const onSubmit = async (data) => {
         setIsPending(true);
+        let responseData;
         const token = localStorage.getItem("Authorization");
         if (!token) {
             setLoading(false);
@@ -44,12 +40,12 @@ export default function NewArticle() {
             if (!response.ok) {
                 console.error("Error in response:", response.status, response.statusText);
             }
-            const responseData = await response.json();
-            console.log("Sucessfully submitted");
-            console.log(responseData); // Logs the entire response JSON
-            console.log("Article ID:", responseData.new_article._id); // Logs the specific ID
+            responseData = await response.json();
         } catch (err) {
             console.log(err);
+        } finally {
+            setIsPending(false);
+            navigate(`/dashboard/${responseData.new_article._id}/update`)
         }
     }
 
@@ -70,12 +66,6 @@ export default function NewArticle() {
         }
         getApi();
     })
-
-
-    /* SUBMISSION OF CONTENT
-        Note the above log() function where the editor uses useRef to write out the information. TinyMCE deals with dangerous characters like < > and &, escaping them itself.
-        So, we just need to upload this to MongoDB as is. It's a little more complicated when we fetch the info and we're gonna have to change this (and convert it to html!).
-    */
 
     return (
         <div className="grid justify-center max-w-full">
@@ -123,7 +113,7 @@ export default function NewArticle() {
                         </div>
                         <div>
                             <label htmlFor="image_url" className="font-bold dark:text-slate-100">Image URL</label>
-                            <input type="text" id="image_url" maxLength={40} minLength={2} required
+                            <input type="text" id="image_url" minLength={2}
                             className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-950 dark:focus:ring-yellow-400 sm:text-sm sm:leading-6 dark:bg-transparent dark:text-slate-100"
                             {...register("image_url", {})}
                             />
@@ -135,16 +125,6 @@ export default function NewArticle() {
                         )}
                         { apiKey && (
                             <>
-                                <input type="text" className="hidden" 
-                                    {...register("content", {
-                                        required: "Content is required",
-                                        maxLength: {
-                                            value: 40,
-                                            message: "Max length is 200 characters",
-                                        },
-                                    })}
-                                    defaultValue="Hello"
-                                />
                                 <div className="dark:text-slate-100">
                                     <p><b>Content</b>: Below you'll find the rich text editor where you can write the content of your article. You can select from various headings and subheadings along with different types of lists (unordered bullet points or ordered numbers).
                                         Press Alt+0 (zero) for the help box (which contains keyboard shortcuts, etc.).</p>
@@ -172,9 +152,15 @@ export default function NewArticle() {
                                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                     }}
                                 />
-                                <button type="submit"
-                                    className="flex w-full justify-center rounded-md bg-green-600 px-3 mt-2.5 py-1.5 font-semibold leading-6 text-white shadow-sm sm:max-w-5xl hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-                                >Create</button>
+                                { pending ? (
+                                    <div className="flex justify-center items-center my-5">
+                                        <Spinner id="spinner" />
+                                    </div>
+                                ) : (
+                                    <button type="submit"
+                                        className="flex w-full justify-center rounded-md bg-green-600 px-3 mt-2.5 py-1.5 font-semibold leading-6 text-white shadow-sm sm:max-w-5xl hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                                    >Create</button>                                    
+                                )}
                             </>
                         )}
                     </form>
