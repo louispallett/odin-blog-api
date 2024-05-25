@@ -54,12 +54,12 @@ export default function UpdateArticle() {
         const element = document.getElementById("publishConfirm");
         element.style.display = "block";
     }
-
+    
     const cancelPublish = () => {
         const element = document.getElementById("publishConfirm");
         element.style.display = "none";
     }
-
+    
     const publishArticle = async () => {
         cancelPublish();
         setPending(true);
@@ -74,6 +74,33 @@ export default function UpdateArticle() {
             console.log(err);
         } finally {
             setPending(false);
+        }
+    }
+
+    const confirmDelete = () => {
+        const element = document.getElementById("deleteConfirm");
+        element.style.display = "block";
+    }
+
+    const cancelDelete = () => {
+        const element = document.getElementById("deleteConfirm");
+        element.style.display = "none";
+    }
+
+    const deleteArticle = async () => {
+        cancelDelete();
+        setPending(true);
+        try {
+            const response = await fetch(`/api/articles/${id}/delete`, {
+                method: "POST"
+            });
+            if (!response.ok) {
+                console.error("Error in response:", response.status, response.statusText);
+            } else {
+                navigate("/dashboard/articles");
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -221,7 +248,7 @@ export default function UpdateArticle() {
                             >
                                 { pending ? ( <Spinner id="spinner" /> ) : (articleData.published ? ( <span>Unpublish</span> ) : ( <span>Publish</span> ))}
                             </button>
-                            <button
+                            <button onClick={confirmDelete}
                                 className="flex w-full justify-center rounded-md bg-red-600 px-3 mt-2.5 py-1.5 font-semibold leading-6 text-white shadow-sm sm:max-w-5xl hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                             >
                                 { pending ? ( <Spinner id="spinner" /> ) : ( <span>Delete</span> )}
@@ -233,20 +260,35 @@ export default function UpdateArticle() {
                             <Spinner id="spinner" />
                         </div>
                     )}
-                { articleData && (
-                    <div className="hidden dark:text-slate-100 p-3.5 sm:p-5" id="publishConfirm">
-                        <h1 className="text-xl font-bold tracking-tight text-nowrap py-2.5 max-sm:text-wrap">Publish this article?</h1>
-                        <p className="">Publishing this article will make it visible to the public</p>
-                        <div className="flex justify-center gap-2.5 sm:gap-3.5">
-                            <button onClick={publishArticle}
-                                className="flex justify-center w-full rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
-                                { articleData.published ? ( <span>Unpublish</span> ) : ( <span>Publish</span> ) }</button>
-                            <button onClick={cancelPublish}
-                                className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
-                                Cancel</button>
-                        </div>
-                    </div>
-                )}
+                    { articleData && (
+                        <>
+                            <div className="hidden dark:text-slate-100 p-3.5 sm:p-5" id="publishConfirm">
+                                <h1 className="text-xl font-bold tracking-tight text-nowrap py-2.5 max-sm:text-wrap">Publish this article?</h1>
+                                <p className="my-2.5 mb-5">Publishing this article will make it visible to the public</p>
+                                <div className="flex justify-center gap-2.5 sm:gap-3.5">
+                                    <button onClick={publishArticle}
+                                        className="flex justify-center w-full rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
+                                        { articleData.published ? ( <span>Unpublish</span> ) : ( <span>Publish</span> ) }</button>
+                                    <button onClick={cancelPublish}
+                                        className="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                                        Cancel</button>
+                                </div>
+                            </div>
+                            <div className="hidden dark:text-slate-100 p-3.5 sm:p-5" id="deleteConfirm">
+                                <h1 className="text-xl font-bold tracking-tight text-nowrap py-2.5 max-sm:text-wrap">Delete this article?</h1>
+                                <p className="my-2.5 mb-5">Are you sure you want to delete this article? This is irreversable!</p>
+                                <div className="flex justify-center gap-2.5 sm:gap-3.5">
+                                    <button onClick={deleteArticle}
+                                        className="flex justify-center w-full rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                                        Delete</button>
+                                    <button onClick={cancelDelete}
+                                        className="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
+                                        Cancel</button>
+                                </div>
+                            </div>
+                        </>
+                    )}
+
             </div>
         </div>
     </div>

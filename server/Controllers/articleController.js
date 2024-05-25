@@ -156,18 +156,13 @@ exports.delete_article_get = asyncHandler(async (req, res, next) => {
 exports.delete_article_post = [
     asyncHandler(async (req, res, next) => {
         try {
-            await verifyWriter(req.headers.authorization);
+            // await verifyWriter(req.headers.authorization);
             const article = Article.findById(req.params.id).exec();
             if (!article) {
                 res.sendStatus(404);
             } else {
                 await Article.findByIdAndDelete(req.params.id);
-                res.json(
-                    {
-                        acknowledged: true,
-                        message: "Article deleted"
-                    }
-                )
+                res.sendStatus(200);
             }
         } catch (err) {
             res.sendStatus(err);

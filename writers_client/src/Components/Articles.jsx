@@ -55,9 +55,13 @@ export default function Articles() {
                             </div>
                         )}
                         {publishedArticles && (
-                            publishedArticles.map(item => (
-                                <ArticleCard data={item} />
-                            ))
+                            publishedArticles.length ? (
+                                publishedArticles.map(item => (
+                                    <ArticleCard data={item} />
+                                ))
+                            ) : (
+                                <p className="font-bold italic dark:text-slate-100">No published articles.</p>
+                            )
                         )}
                         {error && (
                             <div className="text-white">
@@ -82,9 +86,13 @@ export default function Articles() {
                             </div>
                         )}
                         {unpublishedArticles && (
-                            unpublishedArticles.map(item => (
-                                <ArticleCard data={item} />
-                            ))
+                            unpublishedArticles.length ? (
+                                unpublishedArticles.map(item => (
+                                    <ArticleCard data={item} />
+                                ))
+                            ) : (
+                                <p className="font-bold italic dark:text-slate-100">No unpublished articles. Click on 'New Article' below to create one!</p>
+                            )
                         )}
                         {error && (
                             <div className="text-white">
