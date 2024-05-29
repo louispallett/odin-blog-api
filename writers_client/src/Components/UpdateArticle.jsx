@@ -24,20 +24,30 @@ export default function UpdateArticle() {
         setPending(true);
         const token = localStorage.getItem("Authorization");
         if (!token) {
-            setLoading(false);
+            setPending(false);
             return;
         }
-        setPending(true);
-        if (!editorRef.current) { console.log("Error with Editor Ref"); return;}
-        data.content = editorRef.current.getContent();
+        
+        if (!editorRef.current) {
+            console.log("Error with Editor Ref");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('content', editorRef.current.getContent());
+        formData.append('banner', data.banner[0]);
+        Object.keys(data).forEach(key => {
+            if (key !== 'banner') {
+                formData.append(key, data[key]);
+            }
+        });
         try {
             const response = await fetch(`/api/articles/${id}/update`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json", 
                     "Authorization": token
                 },
-                body: JSON.stringify(data)
+                body: formData
             });
             if (!response.ok) {
                 console.error("Error in response:", response.status, response.statusText);
@@ -188,14 +198,20 @@ export default function UpdateArticle() {
                                 ></textarea>
                             </div>
                             <div>
-                                <label htmlFor="image_url" className="font-bold dark:text-slate-100">Image URL</label>
-                                <input type="text" id="image_url" minLength={2}
-                                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-blue-950 dark:focus:ring-yellow-400 sm:text-sm sm:leading-6 dark:bg-transparent dark:text-slate-100"
-                                {...register("image_url", {})}
-                                defaultValue={articleData.image_url}
-                                />
-                            </div>
-                            <div className="flex tems-center font-bold text-sm text-slate-100">
+                                <label htmlFor="banner" className="font-bold dark:text-slate-100">Banner Image</label>
+                                <div className="flex flex-col">
+                                    <input type="file" id="banner" accept="image/*"
+                                        className="font-bold dark:text-slate-100 hover:cursor-pointer my-1.5 sm:my-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
+                                        {...register("banner", {})}
+                                    />
+                                    {articleData.image_url && (
+                                        <p className="text-sm dark:text-slate-100">Current image 
+                                        <a className="font-bold text-yellow-400" href={articleData.image_url} target="_blank" rel="noopener noreferrer"> here
+                                            </a>. If you upload a new image and save it will replace this one.</p>
+                                    )}
+                                </div>
+                            </div>   
+                            <div className="flex justify-center items-center font-bold text-sm text-slate-100">
                                 <p className="bg-blue-700 py-1.5 px-2.5 sm:px-3.5 rounded-s-md">Publication status: </p>
                                 { articleData.published ? (
                                     <p className="bg-green-700 py-1.5 px-2.5 sm:px-3.5 rounded-e-md">Published</p>

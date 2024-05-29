@@ -46,11 +46,11 @@ app.use(passport.session());
 
 
 // Temp: for dev
-app.use((req, res, next) => {
-    console.log(req.session);
-    console.log(req.user);
-    next();
-});  
+// app.use((req, res, next) => {
+//     console.log(req.session);
+//     console.log(req.user);
+//     next();
+// });  
 
 app.use("/api", indexRouter);
 app.use("/api/writers", writerRouter);

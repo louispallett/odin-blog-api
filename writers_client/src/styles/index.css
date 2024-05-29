@@ -21,10 +21,6 @@ select:hover {
     animation: fade-back 800ms ease forwards;
 }
 
-input[type="checkbox"] {
-    cursor: pointer;
-}
-
 #spinner {
     animation: rotate 1000ms infinite linear;
 }

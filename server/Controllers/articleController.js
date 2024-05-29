@@ -1,5 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const cloudinary = require("../config/cloudinary");
+const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
 
 const Article = require("../models/article");
 const verifyWriter = require("../config/verifyWriter");
@@ -38,17 +42,16 @@ exports.article_detail = asyncHandler(async (req, res, next) => {
 
 // Possibly redundant - I'm not certain what information we need to return to the front end for this one!
 // Using templates, we would just render the page, so this probably isn't needed!
-exports.new_article_get = asyncHandler(async (req, res, next) => {
-    try {
-        await verifyWriter(req.token);
-        res.json({ access: true });
-    } catch (err) {
-        res.sendStatus(403)
-    }
-});
+// exports.new_article_get = asyncHandler(async (req, res, next) => {
+//     try {
+//         await verifyWriter(req.token);
+//         res.json({ access: true });
+//     } catch (err) {
+//         res.sendStatus(403)
+//     }
+// });
 
 exports.new_article_post = [
-    // TODO: Update 'image_url' with image file via cloudinary - see inventory application project
     body("title")
         .trim()
         .isLength({ min: 2, max: 40 }).withMessage("Title must be between 2 and 40 characters in length")
@@ -73,9 +76,21 @@ exports.new_article_post = [
                title: req.body.title,
                synopsis: req.body.synopsis,
                content: req.body.content,
-               image_url: req.body.image_url, // We'll have to change this after
+               image_url: "",
+               cloudinary_id: "",
                published: false,
-           });
+            });
+
+            if (req.file) {
+                const result = await cloudinary.uploader.upload(req.file.path, { folder: "SON_banners" }, (err, result) => {
+                    console.log(err, result);
+                });
+
+                await unlinkFile(req.file.path);
+
+                new_article.image_url = result.secure_url;
+                new_article.cloudinary_id = result.public_id;
+            }
        
            await new_article.save();
            res.json({ new_article }); // We want to return this to the frontend so we can redirect the client to the post 
@@ -121,6 +136,7 @@ exports.update = [
             console.log(err);
             res.sendStatus(403);
         }
+        console.log(req)
     })
 ];
 

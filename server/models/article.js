@@ -8,9 +8,10 @@ const Article = new Schema(
         title: { type: String, required: true },
         synopsis: { type: String, required: true },
         content: { type: String, required: true },
-        image_url: { type: String }, // If this isn't provided, we can put in a 'placeholder' image
         date: { type: Date, required: true },
         published: { type: Boolean, required: true },
+        image_url: { type: String },
+        cloudinary_id: { type: String },
     }
 );
 
