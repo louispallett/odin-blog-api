@@ -100,9 +100,17 @@ export default function UpdateArticle() {
     const deleteArticle = async () => {
         cancelDelete();
         setPending(true);
+        const token = localStorage.getItem("Authorization");
+        if (!token) {
+            setPending(false);
+            return;
+        }
         try {
             const response = await fetch(`/api/articles/${id}/delete`, {
-                method: "POST"
+                method: "POST",
+                headers: {
+                    "Authorization": token
+                },                
             });
             if (!response.ok) {
                 console.error("Error in response:", response.status, response.statusText);

@@ -118,25 +118,47 @@ exports.update = [
             res.json({ message: "Validation Error", errors: errors.array() });
             return;
         }
+
         try {
-            const userData = await verifyWriter(req.headers.authorization);
+            const [userData, originalArticle] = await Promise.all([
+                verifyWriter(req.headers.authorization),
+                Article.findById(req.params.id).exec()
+            ])
+
             const updated_article = new Article({
                 author: userData.user._id,
                 date: new Date(),
                 title: req.body.title,
                 synopsis: req.body.synopsis,
                 content: req.body.content,
-                image_url: req.body.image_url, // We'll have to change this after
+                image_url: "",
+                cloudinary_id: "",
                 published: false,
                 _id: req.params.id,
             });
+
+            if (req.file) {
+                if (originalArticle.cloudinary_id) await cloudinary.uploader.destroy(originalArticle.cloudinary_id);
+                const result = await cloudinary.uploader.upload(req.file.path, { folder: "SON_banners" }, (err, result) => {
+                    console.log(err, result);
+                });
+
+                await unlinkFile(req.file.path);
+
+                updated_article.image_url = result.secure_url;
+                updated_article.cloudinary_id = result.public_id;
+            } else {
+                updated_article.image_url = originalArticle.image_url;
+                updated_article.cloudinary_id = originalArticle.cloudinary_id;
+            }
+
             await Article.findByIdAndUpdate(req.params.id, updated_article);
+            
             res.sendStatus(200);
         } catch (err) {
             console.log(err);
             res.sendStatus(403);
         }
-        console.log(req)
     })
 ];
 
@@ -169,20 +191,20 @@ exports.delete_article_get = asyncHandler(async (req, res, next) => {
     }
 });
 
-exports.delete_article_post = [
-    asyncHandler(async (req, res, next) => {
-        try {
-            // await verifyWriter(req.headers.authorization);
-            const article = Article.findById(req.params.id).exec();
-            if (!article) {
-                res.sendStatus(404);
-            } else {
-                await Article.findByIdAndDelete(req.params.id);
-                res.sendStatus(200);
+exports.delete_article_post = asyncHandler(async (req, res, next) => {
+    try {
+        await verifyWriter(req.headers.authorization);
+        const article = Article.findById(req.params.id).exec();
+        if (!article) {
+            res.sendStatus(404);
+        } else {
+            const deletedItem = await Article.findByIdAndDelete(req.params.id);
+            if (deletedItem && deletedItem.cloudinary_id) {
+                await cloudinary.uploader.destroy(deletedItem.cloudinary_id);
             }
-        } catch (err) {
-            res.sendStatus(err);
+            res.sendStatus(200);
         }
-    })
-];
-
+    } catch (err) {
+        res.sendStatus(err);
+    }
+})

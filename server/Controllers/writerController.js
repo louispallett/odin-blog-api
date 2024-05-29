@@ -68,6 +68,7 @@ exports.writer_sign_in = [
             } else {
                 req.login(user, next);
                 jwt.sign({ user: user }, process.env.WRITER_KEY, { expiresIn: "10d" }, (err, token) => {
+                    if (err) console.log(err);
                     res.json({ token: token });
                 });
             }
@@ -96,4 +97,4 @@ exports.writer_new_get = asyncHandler(async (req, res, next) => {
         console.log(err);
         res.sendStatus(500)
     }
-})
+});
