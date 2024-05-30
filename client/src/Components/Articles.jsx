@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 import { Spinner } from "./tailwind-ex-elements";
+import Error from "./Error.jsx";
 import imagePlaceholder from "/assets/images/image_placeholder.svg";
 
 export default function Articles() {
@@ -20,7 +21,7 @@ export default function Articles() {
                 setArticles(actualData.articles.filter(item => item.published));
                 setError(null);
             } catch (err) {
-                setError(err.message);
+                setError(err);
                 setArticles(null);
             } finally {
                 setLoading(false);
@@ -29,7 +30,6 @@ export default function Articles() {
         getArticles();
     }, [])
 
-    // TODO: We need to style the error a bit. Make it look a little nicer.
     return (
         <>
             {loading && (
@@ -46,11 +46,7 @@ export default function Articles() {
                 </div>
             )}
             {error && (
-                <div className="text-white">
-                    <img src="" alt="" className="error"/>
-                    <p>ERROR: {error}</p>
-                    <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p>
-                </div>
+                <Error />
             )}
         </>
     )

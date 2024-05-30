@@ -9,11 +9,12 @@ const Article = require("../models/article");
 const verifyWriter = require("../config/verifyWriter");
 
 exports.article_list = asyncHandler(async (req, res, next) => {
-    const articles = await Article.find().sort({ date:1 }).exec();
-    if (!articles) {
-        res.sendStatus(404);
+    try {
+        const articles = await Article.find().sort({ date:1 }).exec();
+        res.json({ articles });
+    } catch (err) {
+        res.json({ err });
     }
-    res.json({ articles })
 });
 
 exports.writer_article_list = asyncHandler(async (req, res, next) => {

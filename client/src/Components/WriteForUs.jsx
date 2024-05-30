@@ -1,4 +1,4 @@
-import imagePlaceholder from "/assets/images/image_placeholder.svg";
+import tower from "/assets/images/tower.svg";
 
 export default function WriteForUs() {
     return (
@@ -8,7 +8,13 @@ export default function WriteForUs() {
                 <h5 className="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 sm:text-4xl sm:font-black sm:p-5">Write for us</h5>
             </div>
             <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow dark:bg-slate-700">
-                <img src={imagePlaceholder} alt="" className="object-contain max-h-60 max-w-full" />
+                <div className="flex justify-center my-20 gap-20">
+                    <div>
+                        <h1 id="subtitle" className="relative font-jaro inset-y-2 inset-x-20 text-3xl sm:inset-x-24 sm:text-5xl font-black dark:text-white">Singapore</h1>
+                        <h1 id="main-title" className="text-3xl font-jaro sm:text-5xl font-black dark:text-white">on-Thames</h1>
+                    </div>
+                    <img src={tower} alt="" className="max-h-20"/>
+                </div>
                 <hr className="mx-3.5 sm:mx-5" />
                 <p className="self-start px-2.5 py-1 sm:px-3 sm:py-2 sm:pt-4 dark:text-slate-100">
                     Hi there! Thanks for your interest in writing for us. We're a Bristol based publishers posting opinion pieces covering all manner of things, but we primarily have a political angle.</p>

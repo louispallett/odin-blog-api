@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useParams, Link } from "react-router-dom"
 
 import { Spinner } from "./tailwind-ex-elements";
+import Error from "./Error.jsx";
 import imagePlaceholder from "/assets/images/image_placeholder.svg";
 import userImg from "/assets/images/user.svg";
 
@@ -44,11 +45,7 @@ export default function Article() {
                 <ArticleBody data={data} articleId={id} />
             )}
             {error && (
-                <div className="text-white">
-                    <img src="" alt="" className="error"/>
-                    <p>ERROR: {error}</p>
-                    {/* <p>Apologies - an error has occured trying to fetch data from the server. Please try again later.</p> */}
-                </div>
+                <Error />
             )}
             <div className="flex flex-col p-2.5 sm:p-5 sm:min-w-minArticle sm:max-w-maxArticle">
                 <div className="bg-blue-950 rounded-b-none rounded-lg">

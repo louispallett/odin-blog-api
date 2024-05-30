@@ -5,10 +5,8 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import Users from "./Users";
 import WriterDashboard from "./WritersDashboard";
-import DeleteArticle from "./DeleteArticle";
 import UpdateArticle from "./UpdateArticle";
 import NewArticle from "./NewArticle";
-import Article from "./Article";
 import Articles from "./Articles";
 
 export default function Router() {
@@ -54,14 +52,6 @@ export default function Router() {
                         {
                             path: "new",
                             element: <NewArticle />,
-                        },
-                        {
-                            path: ":id",
-                            element: <Article />
-                        },
-                        {
-                            path: ":id/delete",
-                            element: <DeleteArticle />
                         },
                         {
                             path: ":id/update",
