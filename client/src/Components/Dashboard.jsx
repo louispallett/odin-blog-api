@@ -15,7 +15,7 @@ export default function App({ isAuth }) {
       <HeaderContainerInner>
         <div>
           <Link to="/dashboard/articles/" >
-            <h1 id="subtitle" className="relative font-jaro inset-y-3 inset-x-16 text-xl sm:inset-x-20 sm:text-4xl text-white">Singapore</h1>
+            <h1 id="subtitle" className="relative font-jaro inset-y-3 inset-x-10 text-xl sm:inset-x-20 sm:text-4xl text-white">Singapore</h1>
             <h1 id="main-title" className="text-xl font-jaro sm:text-4xl text-white">on-Thames</h1>
           </Link>
         </div>

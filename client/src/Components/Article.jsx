@@ -213,7 +213,7 @@ function PostComment({ articleId, newComment, setNewComment }) {
                     <hr className="mx-5 sm:mx-10 border-slate-600"/>
                     <div className="flex justify-center gap-2.5 sm:gap-5">
                         <textarea name="content" id="content" placeholder="Type here..."
-                            className="block w-full rounded-md py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:bg-blue-950 dark:bg-transparent dark:text-white"
+                            className="block w-full rounded-md py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 dark:focus:bg-blue-950 dark:bg-transparent dark:text-white"
                             {...register("content", {
                                 required: "This input is required!",
                                 maxLength: {
