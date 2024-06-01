@@ -37,7 +37,7 @@ export default function About() {
                                 is the one you are on and <i><b>Singapore on-Thames: Writers</b></i>, a front end for writers to sign up and write, update, and delete their own articles.
                             </p>
                             <p>
-                                If you want to check out the source code, you can do so <Anchor href="https://github.com/louispallett/odin-blog-api">here</Anchor> on my Github repo.
+                                If you want to check out the source code, you can do so <Anchor href="https://github.com/louispallett/odin-blog-api">here</Anchor> on my GitHub repo.
                                  You'll find a list of all the technologies and libraries used - including the methods used for things like authorisation and authentication, handling forms, and file uploads (with 
                                  sites like <Anchor href="https://cloudinary.com/">Cloudinary</Anchor>).
                             </p>
@@ -52,6 +52,18 @@ export default function About() {
                                 to buy £65bn of government bonds</Anchor>, and the end of the shortest premiership in UK political history.
                             </p>
                             <p>So, just a silly joke - as long as you ignore the mortgage rates.</p>
+                            <h2 className="text-lg font-bold sm:text-xl">So... what's it for?</h2>
+                            <p>On a surface level, just a place for me (or anyone else) to express opinions about almost anything... although I do tend to lean towards things which have a 'political' angle. Politics seems into everything, however - society, culture, history, etc. - it's not just about 
+                                discusing politians and elections... that would get boring very quickly.
+                            </p>
+                            <p>On a deeper level this is a site which allows me to practice and implement the numerous skills I've been learning over the last 18 months: JavaScript, Express, React, CSS (and TailwindCSS), and NoSQL database management with MongoDB. Our <Anchor href="">companion site</Anchor> allows 
+                             writers to use a form and rich texteditor to create, update, publish (and unpublish), and delete articles. This allows anyone to write, edit, delete, and publish their own articles through a friendly UI and without any knowledge in web development or programming. This type of fullstack website
+                             could be useful in a variety of different environments and contexts - such as a Restaurant site, in which the menus on site may need to be regularly updated, or even a basic social media application for a small group (such as a sports club) where members could sign up, read, create, and delete posts,
+                             and write/read comments.
+                            </p>
+                            <p>The <Anchor href="">companion site</Anchor> requires sign up and you need an access key to do so. This is to protect who can post articles (although you are only able to edit and delete your own). If you would like to write your own articles (or just simply see the companion site), please get in 
+                             contact with me. The GitHub respoitory's main page (README) contains information on this companion website as well as screenshots from the site.</p>
+                            <p>A full list of libraries and frameworks used can be found on the <Anchor href="https://github.com/louispallett/odin-blog-api">repository</Anchor> on GitHub.</p>
                         </div>
                     </div>
                 </div>
