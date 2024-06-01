@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Spinner, Anchor } from "./tailwind-ex-elements";
+import tower from "/assets/images/tower.svg";
 
 export default function About() {
     const [siteData, setSiteData] = useState(null);
@@ -18,18 +19,30 @@ export default function About() {
     return (
         <>
             <div className="flex flex-col justify-center items-center bg-none px-0 pt-10 pb-8 sm:mx-auto sm:max-w-maxArticle sm:rounded-lg">
-                <h1 className="font-jaro text-center my-5 px-2.5 text-2xl sm:text-3xl sm:mb-15 dark:text-white">Just the ramblings of a Bristol-based developer</h1>
-                { siteData ? (
-                    <ul className="flex list-none justify-center items-center gap-4 text-yellow-500 text-sm sm:text-md flex-col sm:flex-row">
-                        <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Users: {siteData.users}</li>
-                        <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg" >Articles: {siteData.articles}</li>
-                        <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Comments: {siteData.comments}</li>
-                    </ul>
-                ) : (
-                    <Spinner id="spinner"/>
-                )}
                 <div className="flex flex-col p-2.5 sm:p-5 sm:min-w-minArticle sm:max-w-maxArticle">
                     <div className="flex flex-col min-w-full bg-white rounded-lg shadow dark:bg-slate-700">
+                    <div className="bg-blue-950 rounded-b-none rounded-lg">
+                        <h5 className="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 sm:text-4xl sm:font-black sm:p-5">About</h5>
+                    </div>
+                        <div className="flex justify-center my-20 gap-20">
+                            <div>
+                                <h1 id="subtitle" className="relative font-jaro inset-y-2 inset-x-20 text-3xl sm:inset-x-24 sm:text-5xl font-black dark:text-white">Singapore</h1>
+                                <h1 id="main-title" className="text-3xl font-jaro sm:text-5xl font-black dark:text-white">on-Thames</h1>
+                            </div>
+                        <img src={tower} alt="" className="max-h-20"/>
+                        </div>
+                        <h1 className="font-jaro text-center my-5 px-2.5 text-2xl sm:text-3xl sm:mb-15 dark:text-white">Just the ramblings of a Bristol-based developer</h1>
+                        { siteData ? (
+                            <ul className="flex list-none justify-center items-center gap-4 text-yellow-500 text-sm sm:text-md flex-col sm:flex-row">
+                                <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Users: {siteData.users}</li>
+                                <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg" >Articles: {siteData.articles}</li>
+                                <li className="px-2.5 py-1.5 bg-blue-900 font-bold rounded-lg">Comments: {siteData.comments}</li>
+                            </ul>
+                        ) : (
+                            <div className="flex justify-center items-center">
+                                <Spinner id="spinner"/>
+                            </div>
+                        )}
                         <div className="px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100" id="articleBody">
                             <p>
                                 Hi there! I'm an <i>aspiring</i> developer from Bristol and this is my 'blog' <i><b>Singapore on-Thames</b></i>. 
