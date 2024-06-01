@@ -20,6 +20,12 @@ exports.writer_sign_up = [
         .trim(),
 
     asyncHandler(async (req, res, next) => {
+        const writerExists = await Writer.findOne({ email: req.body.email }, "email").exec();
+        if (writerExists) {
+            res.json({ errors: "Email already used for another account!" })
+            return;
+        }
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.json({ message: "Validation Failed", errors: errors.array() })
@@ -37,7 +43,7 @@ exports.writer_sign_up = [
                     writer: false,
                 });
                 await user.save();
-                res.json(user);
+                res.json({ id: user._id });
             });
         } catch(err) {
             return next(err);
@@ -62,9 +68,7 @@ exports.writer_sign_in = [
         passport.authenticate("writer_local", (err, user, info) => {
             if (err) return next(err);
             if (!user) {
-                res.json({
-                    error: "User not found"
-                });
+                res.json({ error: "User not found" });
             } else {
                 req.login(user, next);
                 jwt.sign({ user: user }, process.env.WRITER_KEY, { expiresIn: "10d" }, (err, token) => {

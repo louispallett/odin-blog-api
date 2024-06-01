@@ -30,11 +30,8 @@ router.get("/about", asyncHandler(async (req, res, next) => {
 }));
 
 router.post("/sign-in", 
-    // We will also need to do client-side validation but this is just in case that fails 
     body("email", "Email needs to be a valid email")
         .trim()
-        // Should keep this - try to stop inserting escaped characters (or some) at client side. If that's messed with on that side
-        // we can then escape it as a last resort
         .escape()
         .isEmail(),
     body("password")
@@ -84,6 +81,12 @@ router.post("/sign-up",
         .trim(),
 
     asyncHandler(async (req, res, next) => {
+        const userExists = await User.findOne({ email: req.body.email }, "email").exec();
+        if (userExists) {
+            res.json({ errors: "Email already used for another account!" })
+            return;
+        }
+
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.json({ message: "Validation Failed", errors: errors.array() })
@@ -100,7 +103,7 @@ router.post("/sign-up",
                     password: hashedpassword,
                 });
                 await user.save();
-                res.json(user);
+                res.json({ id: user._id });
             });
         } catch(err) {
             return next(err);

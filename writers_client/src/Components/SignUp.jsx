@@ -15,22 +15,41 @@ export default function SignUp() {
     const { register, control, handleSubmit, formState, watch } = form;
     const { errors } = formState;
     const [isPending, setIsPending] = useState(false);
+    const [signupError, setSignupError] = useState(null);
 
     const onSubmit = async (data) => {
         setIsPending(true);
-        fetch("/api/writers/sign-up", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        }).then(() => {
-            console.log("Successfully Submitted")
-            navigate("/users/sign-in");
-        }). catch((err) => console.log(err));
+        try {
+            const response = await fetch("/api/writers/sign-up", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            if (!response.ok) {
+                setSignupError(`Sorry, a HTTP error has occured. Please try again later. Status: ${response.status}`)
+                return;
+            };
+            const responseData = await response.json();
+            if (responseData.id) {
+                console.log("Success!");
+                navigate("/users/sign-in");
+            } else {
+                setSignupError(responseData.errors)
+                console.log(signupError);
+            }
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setIsPending(false);
+        }
     }
-
+    
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+                {signupError && (
+                    <p className="font-bold text-red-400">{signupError}</p>
+                )}
                 <div className="flex items-center justify-between gap-5">
                     <div>
                         <label htmlFor="username" className="block text-sm leading-6 text-gray-100">Username</label>
@@ -109,6 +128,9 @@ export default function SignUp() {
                             className="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"/>
                     </div>                        
                 </div>
+                <span className="text-sm font-bold text-red-400">
+                    <p>{errors.passkey?.message}</p>
+                </span>
                 <div>
                     { isPending ? (
                         <div className="flex justify-center">

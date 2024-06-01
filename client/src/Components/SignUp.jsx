@@ -7,30 +7,47 @@ import { useNavigate } from "react-router-dom";
 import { Spinner } from "./tailwind-ex-elements";
 
 export default function SignUp() {
-    // FIXME: Client side validation error: confpassword to checking status on keyup means message can appear even when passwords match
-    // TODO: Add client-side validation to check email is VALID email
     // See the playlist on react-hook-form (https://www.youtube.com/playlist?list=PLC3y8-rFHvwjmgBr1327BA5bVXoQH-w5s)
     const form = useForm();
     const navigate = useNavigate();
     const { register, control, handleSubmit, formState, watch } = form;
     const { errors } = formState;
     const [isPending, setIsPending] = useState(false);
+    const [signupError, setSignupError] = useState(null);
 
     const onSubmit = async (data) => {
         setIsPending(true);
-        fetch("/api/sign-up", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        }).then(() => {
-            console.log("Successfully Submitted")
-            navigate("/users/sign-in");
-        }). catch((err) => console.log(err));
+        try {
+            const response = await fetch("/api/sign-up", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            if (!response.ok) {
+                setSignupError(`Sorry, a HTTP error has occured. Please try again later. Status: ${response.status}`)
+                return;
+            };
+            const responseData = await response.json();
+            if (responseData.id) {
+                console.log("Success!");
+                navigate("/users/sign-in");
+            } else {
+                setSignupError(responseData.errors)
+                console.log(signupError);
+            }
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setIsPending(false);
+        }
     }
-
+    
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+                {signupError && (
+                    <p className="font-bold text-red-400">{signupError}</p>
+                )}
                 <div className="flex items-center justify-between gap-5">
                     <div>
                         <label htmlFor="username" className="block text-sm leading-6 text-gray-100">Username</label>

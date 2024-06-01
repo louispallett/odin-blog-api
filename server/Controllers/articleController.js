@@ -41,17 +41,6 @@ exports.article_detail = asyncHandler(async (req, res, next) => {
     res.json({ article })
 });
 
-// Possibly redundant - I'm not certain what information we need to return to the front end for this one!
-// Using templates, we would just render the page, so this probably isn't needed!
-// exports.new_article_get = asyncHandler(async (req, res, next) => {
-//     try {
-//         await verifyWriter(req.token);
-//         res.json({ access: true });
-//     } catch (err) {
-//         res.sendStatus(403)
-//     }
-// });
-
 exports.new_article_post = [
     body("title")
         .trim()
