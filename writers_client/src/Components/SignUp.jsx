@@ -78,20 +78,20 @@ export default function SignUp() {
                                     value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                                     message: "Must contain: uppercase, lowercase, number, and special character"
                                 },
-                                validate: {
-                                    passwordMatch: (fieldValue) => {
-                                        return (
-                                            fieldValue == watch("confPassword") || "Passwords do not match"
-                                        )
-                                    }
-                                }
                             })} 
-                                className="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"/>
+                            className="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"/>
                         </div>
                         <div>
                             <label htmlFor="confPassword" className="block text-sm font-medium leading-6 text-gray-100">Confirm Password</label>
                             <input type="password" id="confPassword" required {...register("confPassword", {
-                                required: "Please confirm your password"
+                                required: "Please confirm your password", 
+                                validate: {
+                                    passwordMatch: (fieldValue) => {
+                                        return (
+                                            fieldValue == watch("password") || "Passwords do not match"
+                                        )
+                                    }
+                                }
                             })}
                                 className="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6"/>
                         </div>
