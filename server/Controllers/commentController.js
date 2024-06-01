@@ -50,7 +50,6 @@ exports.new_comment_post = [
                 author: userData.user._id,
                 content: req.body.content,
                 date: new Date(),
-                likes: 0
             });
             await new_comment.save();
             res.json({ new_comment });
