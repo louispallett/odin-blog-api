@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { BoxContainer } from "./tailwind-containers";
 
-import { Spinner } from "./tailwind-ex-elements";
+import { Spinner, Anchor } from "./tailwind-ex-elements";
 
 export default function About() {
     const [siteData, setSiteData] = useState(null);
@@ -18,7 +17,7 @@ export default function About() {
     
     return (
         <>
-            <BoxContainer>
+            <div className="flex flex-col justify-center items-center bg-none px-0 pt-10 pb-8 sm:mx-auto sm:max-w-maxArticle sm:rounded-lg">
                 <h1 className="font-jaro text-center my-5 px-2.5 text-2xl sm:text-3xl sm:mb-15 dark:text-white">Just the ramblings of a Bristol-based developer</h1>
                 { siteData ? (
                     <ul className="flex list-none justify-center items-center gap-4 text-yellow-500 text-sm sm:text-md flex-col sm:flex-row">
@@ -38,25 +37,25 @@ export default function About() {
                                 is the one you are on and <i><b>Singapore on-Thames: Writers</b></i>, a front end for writers to sign up and write, update, and delete their own articles.
                             </p>
                             <p>
-                                If you want to check out the source code, you can do so <a href="https://github.com/louispallett/odin-blog-api" className="font-bold text-yellow-500">here</a> on my Github repo.
+                                If you want to check out the source code, you can do so <Anchor href="https://github.com/louispallett/odin-blog-api">here</Anchor> on my Github repo.
                                  You'll find a list of all the technologies and libraries used - including the methods used for things like authorisation and authentication, handling forms, and file uploads (with 
-                                 sites like <a href="https://cloudinary.com/" className="font-bold text-yellow-500">Cloudinary</a>).
+                                 sites like <Anchor href="https://cloudinary.com/">Cloudinary</Anchor>).
                             </p>
                             <p>You'll also find instructions there on how to run it locally (although this does require setting up a MongoDB database and Cloudinary account etc.)</p>
                             <h2 className="text-lg font-bold sm:text-xl">Why 'Singapore on-Thames'?</h2>
-                            <p>Just a silly joke really. On 12 November 2019, Martin Sorrell, then the CEO of S4Capital, argued that, if the UK were to come out of the European Union, he would like to see a <a href="https://www.youtube.com/watch?v=8vYy4qf5N9U&t=126s" className="font-bold text-yellow-500">'Singapore-on-Steriods'</a>.
-                                The idea was a nation with low regulation, low taxes, small state. A libertarian utopia where, in <a href="https://youtu.be/v3Mo0yKCVww?si=GMuqmzykqWS13Uqx&t=196" className="font-bold text-yellow-500">the words</a> of journalist and former BBC political editor, Andrew Marr: 
+                            <p>Just a silly joke really. On 12 November 2019, Martin Sorrell, then the CEO of S4Capital, argued that, if the UK were to come out of the European Union, he would like to see a <Anchor href="https://www.youtube.com/watch?v=8vYy4qf5N9U&t=126s">'Singapore-on-Steriods'</Anchor>.
+                                The idea was a nation with low regulation, low taxes, small state. A libertarian utopia where, in <Anchor href="https://youtu.be/v3Mo0yKCVww?si=GMuqmzykqWS13Uqx&t=196">the words</Anchor> of journalist and former BBC political editor, Andrew Marr: 
                                  "a radically different future, of the markets roaring ahead in all direction..." and also where it would become the home of huge corporations such as Amazon and Google.
                             </p>
                             <p>It took a few years but, eventually, in September 2022, this ideology was put into practice. Liz Truss and Kwasi Kwarteng, her Chancellor of the Exchequer, announced huge tax cuts - particulary for top earners, abolishing the 45% tax rate (earnings over 150k).
-                                However, instead of the great economic leap forward, the 'Singapore on-Thames' theory led to a £45bn hole in the economy, the Bank of England <a href="https://www.theguardian.com/business/2022/oct/20/the-mini-budget-that-broke-britain-and-liz-truss" className="font-bold text-yellow-500">stepping in
-                                to buy £65bn of government bonds</a>, and the end of the shortest premiership in UK political history.
+                                However, instead of the great economic leap forward, the 'Singapore on-Thames' theory led to a £45bn hole in the economy, the Bank of England <Anchor href="https://www.theguardian.com/business/2022/oct/20/the-mini-budget-that-broke-britain-and-liz-truss">stepping in
+                                to buy £65bn of government bonds</Anchor>, and the end of the shortest premiership in UK political history.
                             </p>
                             <p>So, just a silly joke - as long as you ignore the mortgage rates.</p>
                         </div>
                     </div>
                 </div>
-            </BoxContainer>
+            </div>
         </>
     )
 }

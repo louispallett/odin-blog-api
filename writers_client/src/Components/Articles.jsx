@@ -42,7 +42,7 @@ export default function Articles() {
 
     return (
     <>
-        <div className="flex flex-col md:grid md:grid-cols-2">
+        <div className="flex flex-col lg:grid lg:grid-cols-2">
             <div>
                 <div className="flex flex-col p-2.5 sm:p-5 sm:max-w-5xl">
                     <div className="bg-blue-950 rounded-b-none rounded-lg">
