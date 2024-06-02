@@ -69,7 +69,10 @@ function ArticleBody({ data }) {
                 ) : (
                 <img src={imagePlaceholder} alt="" className="object-contain max-h-60 max-w-full" />
                 )}
-                <p className="m-2 p-1 bg-blue-950 self-end font-bold rounded-lg text-slate-100 sm:mx-4 sm:p-1.5">By {data.author.username}</p>
+                <div className="flex justify-between">
+                    <p className="m-2 p-1 bg-blue-950 text-sm font-bold rounded-lg text-slate-100 sm:mx-4 sm:p-1.5">{data.date_formatted}</p>
+                    <p className="m-2 p-1 bg-blue-950 text-sm font-bold rounded-lg text-slate-100 sm:mx-4 sm:p-1.5">By {data.author.username}</p>
+                </div>
                 <p className="italic px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100">{data.synopsis}</p>
                 <hr className="mx-3.5 sm:mx-5" />
                 <div className="px-2.5 py-3.5 sm:px-3 sm:py-4 dark:text-slate-100" dangerouslySetInnerHTML={{__html: data.content }} id="articleBody"></div>
