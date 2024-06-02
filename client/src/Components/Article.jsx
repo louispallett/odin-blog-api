@@ -63,7 +63,7 @@ function ArticleBody({ data }) {
             <div className="bg-blue-950 rounded-b-none rounded-lg">
                 <h5 className="p-3 text-2xl font-sedan font-bold tracking-tight text-gray-100 sm:text-4xl sm:font-black sm:p-5">{data.title}</h5>
             </div>
-            <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow dark:bg-slate-700">
+            <div className="flex flex-col min-w-full bg-white rounded-lg rounded-t-none shadow bg-slate-100 dark:bg-slate-700">
                 {data.image_url ? (
                     <img src={data.image_url} alt="" className="object-cover max-h-60 max-w-full sm:max-h-96" />
                 ) : (
