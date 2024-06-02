@@ -42,6 +42,7 @@ app.use(
     helmet.contentSecurityPolicy({
         directives: {
             "default-src": ["'self'"],
+            "script-src": ["'self'", "'unsafe-inline'"],
         },
     }),
 );
