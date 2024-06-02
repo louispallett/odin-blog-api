@@ -1,11 +1,13 @@
 bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-// const cors = require("cors");
+const compression = require("compression");
+const cookieParser = require('cookie-parser');
 const express = require("express");
+const helmet = require("helmet")
 const mongoose = require("mongoose");
 const logger = require('morgan');
 const path = require("path");
 const passport = require("passport");
+const RateLimit = require("express-rate-limit");
 const session = require("express-session");
 
 const indexRouter = require("./routes/indexRouter");
@@ -23,34 +25,38 @@ async function main() {
     await mongoose.connect(mongoDB);
 }
 
+// Note that the limiter limits requests from each IP address - not over all requests
+const limiter = RateLimit({
+    windowMs: 1 *  60 * 1000,
+    max: 75,
+  });  
+
 const app = express();
 
-app.use(logger('dev'));
-app.use(express.json());
+app.use(compression());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: false }));
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            "default-src": ["'self'"],
+        },
+    }),
+);
+app.use(logger('dev'));
+app.use(limiter);
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true
-}))
-// app.use(cors({
-//     // TODO: At production add our frontend
-// }))
+}));
 
 require("./config/passport.js");
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-// Temp: for dev
-// app.use((req, res, next) => {
-//     console.log(req.session);
-//     console.log(req.user);
-//     next();
-// });  
 
 app.use("/api", indexRouter);
 app.use("/api/writers", writerRouter);

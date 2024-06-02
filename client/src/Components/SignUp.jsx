@@ -1,4 +1,3 @@
-import { DevTool } from "@hookform/devtools";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -128,8 +127,6 @@ export default function SignUp() {
                     )}
                 </div>
             </form>
-            {/* Development: */}
-            <DevTool control={control}/> 
             <p className="mt-10 text-center text-sm text-gray-100"> Already a member? <Link to="/users/sign-in" className="font-semibold leading-6 text-yellow-600 hover:text-yellow-500">Login</Link></p>
         </>
     )

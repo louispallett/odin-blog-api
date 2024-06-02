@@ -1,5 +1,4 @@
 import axios from "axios";
-import { DevTool } from "@hookform/devtools";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -7,8 +6,6 @@ import { useState } from "react";
 import { Spinner } from "./tailwind-ex-elements";
 
 export default function SignIn() {
-    // TODO: Need to return errors is email is not valid email
-    // TODO: Need to ensure specific information comes through to user (i.e. password incorrect or user not found)
     // See the playlist on react-hook-form (https://www.youtube.com/playlist?list=PLC3y8-rFHvwjmgBr1327BA5bVXoQH-w5s)
     const form = useForm();
     const { register, control, handleSubmit, formState, watch } = form;
@@ -80,8 +77,6 @@ export default function SignIn() {
                     )}
                 </div>
             </form>
-            {/* Development: */}
-            <DevTool control={control}/> 
             <p className="mt-10 text-center text-sm text-gray-100"> Not a member? <Link to="/users/sign-up" className="font-semibold leading-6 text-yellow-600 hover:text-yellow-500">Sign Up</Link></p>
         </>
     )

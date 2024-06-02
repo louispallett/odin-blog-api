@@ -1,4 +1,3 @@
-import { DevTool } from "@hookform/devtools";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -7,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { Spinner } from "./tailwind-ex-elements";
 
 export default function SignUp() {
-    // FIXME: Client side validation error: confpassword to checking status on keyup means message can appear even when passwords match
-    // TODO: Add client-side validation to check email is VALID email
     // See the playlist on react-hook-form (https://www.youtube.com/playlist?list=PLC3y8-rFHvwjmgBr1327BA5bVXoQH-w5s)
     const form = useForm();
     const navigate = useNavigate();
@@ -141,8 +138,6 @@ export default function SignUp() {
                     )}
                 </div>
             </form>
-            {/* Development: */}
-            <DevTool control={control}/> 
             <p className="mt-10 text-center text-sm text-gray-100"> Already a member? <Link to="/users/sign-in" className="font-semibold leading-6 text-yellow-600 hover:text-yellow-500">Login</Link></p>
         </>
     )
