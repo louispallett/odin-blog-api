@@ -101,7 +101,7 @@ exports.update = [
         .isLength({ min: 2, max: 200 }),
     body("content")
         .trim()
-        .isLength({ min: 2, max: 5000 }).withMessage("Content must be between 2 and 5000 characters in length"),
+        .isLength({ min: 2, max: 40000 }).withMessage("Content must be between 2 and 40000 characters in length"),
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
