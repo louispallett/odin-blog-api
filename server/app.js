@@ -41,7 +41,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
-            "default-src": ["'self'"],
+            "default-src": ["'self'", "https://son-server.fly.dev/favicon.ico"],
+            "script-src": ["'self'", "'unsafe-inline'", "'res.cloudinary.com'"],
+            "img-src": ["'self'", "*.cloudinary.com", "https://son-server.fly.dev/favicon.ico"]
         },
     }),
 );
@@ -64,5 +66,5 @@ app.use("/api/articles", articlesRouter);
 // See commentsRouter.js - we MUST use mergeParams: true in order to use parameters across files
 app.use("/api/articles/:articleId/comments", commentsRouter);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

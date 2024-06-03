@@ -1,5 +1,7 @@
 #TEMP
 package-lock.json
+*.toml
+Dockerfile
 
 # Logs
 logs
