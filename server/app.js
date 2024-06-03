@@ -42,7 +42,6 @@ app.use(
     helmet.contentSecurityPolicy({
         directives: {
             "default-src": ["'self'"],
-            "script-src": ["'self'", "'unsafe-inline'"],
         },
     }),
 );
@@ -58,17 +57,6 @@ require("./config/passport.js");
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.get("/*", (req, res, next) => {
-    res.sendFile(
-        path.join(__dirname, "../client/index.html"),
-        function (err) {
-            if (err) {
-                res.status(500).send(err);
-            }
-        }
-    );
-});
 
 app.use("/api", indexRouter);
 app.use("/api/writers", writerRouter);
