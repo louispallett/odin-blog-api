@@ -81,7 +81,7 @@ router.post("/sign-up",
         .trim(),
 
     asyncHandler(async (req, res, next) => {
-        const userExists = await User.findOne({ email: req.body.email }, "email").exec();
+        const userExists = await User.findOne({ email: req.body.email.toLowerCase() }, "email").exec();
         if (userExists) {
             res.json({ errors: "Email already used for another account!" })
             return;
