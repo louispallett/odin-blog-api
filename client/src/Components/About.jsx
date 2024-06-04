@@ -8,7 +8,7 @@ export default function About() {
 
     useEffect(() => {
         const apiCall = async () => {
-            const response = await fetch("https://son-server.fly.dev/api/about/", { mode: "cors" });
+            const response = await fetch("/api/about/", { mode: "cors" });
             const siteData = await response.json();
             setSiteData(siteData);
         }

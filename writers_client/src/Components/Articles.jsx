@@ -18,7 +18,7 @@ export default function Articles() {
                 navigate("/sign-in");
             };
             try {
-                const response = await fetch("https://son-server.fly.dev/api/articles/writers_articles", { 
+                const response = await fetch("/api/articles/writers_articles", { 
                     mode: "cors",
                     headers: { "Authorization": token}
                 });

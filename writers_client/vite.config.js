@@ -9,7 +9,7 @@ export default defineConfig({
     port: 4000,
     proxy: {
       '/api': {
-        target: 'https://son-server.fly.dev/',
+        target: 'http://localhost:5000',
         changeOrigin: true,
         secure: false,
         ws: true,

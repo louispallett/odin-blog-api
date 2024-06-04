@@ -20,7 +20,7 @@ export default function Router() {
                 return;
             };
             try {
-                const response = await fetch("https://son-server.fly.dev/api/writers/verify", { 
+                const response = await fetch("/api/writers/verify", { 
                     mode: "cors", 
                     headers: { "Authorization": `${token}`} 
                 })

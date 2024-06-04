@@ -57,7 +57,7 @@ function ArticleForm() {
         });
 
         try {
-            const response = await fetch("https://son-server.fly.dev/api/articles/create_article", {
+            const response = await fetch("/api/articles/create_article", {
                 method: "POST",
                 headers: {
                     "Authorization": token
@@ -81,7 +81,7 @@ function ArticleForm() {
     useEffect(() => {
         const getApi = async () => {
             try {
-                const response = await fetch("https://son-server.fly.dev/api/writers/new", { mode: "cors" });
+                const response = await fetch("/api/writers/new", { mode: "cors" });
                 if (!response.ok) {
                     throw new Error(response.status);
                 }
