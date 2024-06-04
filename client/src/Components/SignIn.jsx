@@ -43,8 +43,8 @@ export default function SignIn() {
                     <input autoComplete="email" required id="email" {...register("email", {
                         required: "Email is required",
                         maxLength: {
-                            value: 30,
-                            message: "Email cannot be longer than twenty (30) characters long!"
+                            value: 100,
+                            message: "Email cannot be longer than a hundred (100) characters long!"
                         },
                     })}
                         className="block w-full rounded-md border-0 py-1.5 px-2 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-yellow-500 sm:text-sm sm:leading-6" />
