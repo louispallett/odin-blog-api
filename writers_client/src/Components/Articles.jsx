@@ -57,7 +57,7 @@ export default function Articles() {
                         {publishedArticles && (
                             publishedArticles.length ? (
                                 publishedArticles.map(item => (
-                                    <ArticleCard data={item} />
+                                    <ArticleCard data={item} key={item._id} />
                                 ))
                             ) : (
                                 <p className="font-bold italic dark:text-slate-100">No published articles.</p>

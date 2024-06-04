@@ -40,7 +40,7 @@ export default function Articles() {
             {articles && (
                 <div className="grid gap-2.5 lg:grid-cols-2 m-2.5 sm:m-5 sm:gap-5 justify-center">
                     {articles.map(item => (
-                        <ArticleCard data={item} />
+                        <ArticleCard data={item} key={item._id} />
                     ))}
                 </div>
             )}

@@ -8,7 +8,7 @@ export default function About() {
 
     useEffect(() => {
         const apiCall = async () => {
-            const response = await fetch("/api/about/");
+            const response = await fetch("/api/about/", { mode: "cors" });
             const siteData = await response.json();
             setSiteData(siteData);
         }
