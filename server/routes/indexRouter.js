@@ -99,7 +99,7 @@ router.post("/sign-up",
                 }
                 const user = new User({
                     username: req.body.username,
-                    email: req.body.email,
+                    email: req.body.email.toLowerCase(),
                     password: hashedpassword,
                 });
                 await user.save();

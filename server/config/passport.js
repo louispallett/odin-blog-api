@@ -12,7 +12,7 @@ const Writer = require("../models/writer");
 */
 passport.use("user_local", new LocalStrategy({ usernameField: "email"}, async (email, password, done) => {
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return done(null, false, { message: "Incorrect email" });
     };
@@ -28,7 +28,7 @@ passport.use("user_local", new LocalStrategy({ usernameField: "email"}, async (e
 
 passport.use("writer_local", new LocalStrategy({ usernameField: "email"}, async (email, password, done) => {
   try {
-    const user = await Writer.findOne({ email: email });
+    const user = await Writer.findOne({ email: email.toLowerCase() });
     if (!user) {
       return done(null, false, { message: "Incorrect email" });
     };

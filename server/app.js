@@ -29,11 +29,12 @@ async function main() {
 const limiter = RateLimit({
     windowMs: 1 *  60 * 1000,
     max: 75,
-  });  
+});  
 
 const app = express();
 
 app.use((req, res, next) => {
+    // res.setHeader("Access-Control-Allow-Origin", "https://son-blog.netlify.app, https://son-writers.netlify.app");
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "POST, GET");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");

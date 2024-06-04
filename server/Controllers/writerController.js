@@ -38,7 +38,7 @@ exports.writer_sign_up = [
                 }
                 const user = new Writer({
                     username: req.body.username,
-                    email: req.body.email,
+                    email: req.body.email.toLowerCase(),
                     password: hashedpassword,
                     writer: false,
                 });
