@@ -42,7 +42,8 @@ export default function UpdateArticle() {
             }
         });
         try {
-            const response = await fetch(`/api/articles/${id}/update`, {
+            const response = await fetch(`https://son-server.fly.dev/api/articles/${id}/update`, {
+                mode: "cors",
                 method: "POST",
                 headers: {
                     "Authorization": token
@@ -74,7 +75,7 @@ export default function UpdateArticle() {
         cancelPublish();
         setPending(true);
         try {
-            const response = await fetch(`/api/articles/${id}/publish`, {
+            const response = await fetch(`https://son-server.fly.dev/api/articles/${id}/publish`, {
                 method: "POST"
             });
             if (!response.ok) {
@@ -106,7 +107,8 @@ export default function UpdateArticle() {
             return;
         }
         try {
-            const response = await fetch(`/api/articles/${id}/delete`, {
+            const response = await fetch(`https://son-server.fly.dev/api/articles/${id}/delete`, {
+                mode: "cors",
                 method: "POST",
                 headers: {
                     "Authorization": token
@@ -125,7 +127,7 @@ export default function UpdateArticle() {
     useEffect(() => {
         const getApi = async () => {
             try {
-                const response = await fetch("/api/writers/new", { mode: "cors" });
+                const response = await fetch("https://son-server.fly.dev/api/writers/new", { mode: "cors" });
                 if (!response.ok) {
                     throw new Error(response.status);
                 }
@@ -141,7 +143,7 @@ export default function UpdateArticle() {
 
         const getArticleData = async () => {
             try {
-                const response = await fetch(`/api/articles/${id}`, { mode: "cors" });
+                const response = await fetch(`https://son-server.fly.dev/api/articles/${id}`, { mode: "cors" });
                 if (!response.ok) {
                     throw new Error(response.status);
                 }

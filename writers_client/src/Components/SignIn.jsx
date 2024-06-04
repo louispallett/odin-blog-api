@@ -18,7 +18,7 @@ export default function SignIn() {
 
     const onSubmit = async (data) => {
         setIsPending(true)
-        axios.post("/api/writers/sign-in", data)
+        axios.post("https://son-server.fly.dev/api/writers/sign-in", data)
             .then(response => {
                 const token = response.data.token;
                 if (!token) {
