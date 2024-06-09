@@ -6,6 +6,7 @@ const util = require('util');
 const unlinkFile = util.promisify(fs.unlink);
 
 const Article = require("../models/article");
+const replaceEncodedCharacters = require("../config/encodedChar");
 const verifyWriter = require("../config/verifyWriter");
 
 exports.article_list = asyncHandler(async (req, res, next) => {
@@ -70,6 +71,9 @@ exports.new_article_post = [
                cloudinary_id: "",
                published: false,
             });
+
+            new_article.title = replaceEncodedCharacters(new_article.title);
+            new_article.synopsis = replaceEncodedCharacters(new_article.synopsis);
 
             if (req.file) {
                 const result = await cloudinary.uploader.upload(req.file.path, { folder: "SON_banners" }, (err, result) => {
