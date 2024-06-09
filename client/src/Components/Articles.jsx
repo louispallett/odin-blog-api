@@ -13,7 +13,7 @@ export default function Articles() {
     useEffect(() => {
         const getArticles = async () => {
             try {
-                const response = await fetch("/api/articles/", { mode: "cors" });
+                const response = await fetch("https://son-server.fly.dev/api/articles/", { mode: "cors" });
                 if (!response.ok) {
                     throw new Error(response.status);
                 }

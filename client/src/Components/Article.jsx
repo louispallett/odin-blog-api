@@ -17,7 +17,7 @@ export default function Article() {
     useEffect(() => {
         const getArticle = async () => {
             try {
-                const response = await fetch(`/api/articles/${id}`, { mode: "cors" });
+                const response = await fetch(`https://son-server.fly.dev/api/articles/${id}`, { mode: "cors" });
                 if (!response.ok) {
                     throw new Error(response.status);
                 }
@@ -91,7 +91,7 @@ function Comments({ articleId }) {
     useEffect(() => {
         const getComments = async () => {
             try {
-                const response = await fetch(`/api/articles/${articleId}/comments`, { mode: "cors" });
+                const response = await fetch(`https://son-server.fly.dev/api/articles/${articleId}/comments`, { mode: "cors" });
                 if (!response.ok) {
                     throw new Error(response.status);
                 }
@@ -165,7 +165,7 @@ function PostComment({ articleId, newComment, setNewComment }) {
         }
         setIsPending(true);
         try {
-            await fetch(`/api/articles/${articleId}/comments/create`, {
+            await fetch(`https://son-server.fly.dev/api/articles/${articleId}/comments/create`, {
                 mode: "cors",
                 method: "POST",
                 headers: { 
@@ -190,7 +190,7 @@ function PostComment({ articleId, newComment, setNewComment }) {
                 return;
             };
             try {
-                const response = await fetch(`/api/articles/${articleId}/comments/create`, { 
+                const response = await fetch(`https://son-server.fly.dev/api/articles/${articleId}/comments/create`, { 
                     mode: "cors", 
                     headers: { "Authorization": token } 
                 })

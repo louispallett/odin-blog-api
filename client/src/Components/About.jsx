@@ -8,7 +8,7 @@ export default function About() {
 
     useEffect(() => {
         const apiCall = async () => {
-            const response = await fetch("/api/about/", { mode: "cors" });
+            const response = await fetch("https://son-server.fly.dev/api/about/", { mode: "cors" });
             const siteData = await response.json();
             setSiteData(siteData);
         }
@@ -74,7 +74,7 @@ export default function About() {
                              could be useful in a variety of different environments and contexts - such as a Restaurant site, in which the menus on site may need to be regularly updated, or even a basic social media application for a small group (such as a sports club) where members could sign up, read, create, and delete posts,
                              and write/read comments.
                             </p>
-                            <p>The <Anchor href="">companion site</Anchor> requires sign up and you need an access key to do so. This is to protect who can post articles (although you are only able to edit and delete your own). If you would like to write your own articles (or just simply see the companion site), please get in 
+                            <p>The <Anchor href="https://son-writers.netlify.app">companion site</Anchor> requires sign up and you need an access key to do so. This is to protect who can post articles (although you are only able to edit and delete your own). If you would like to write your own articles (or just simply see the companion site), please get in 
                              contact with me. The GitHub respoitory's main page (README) contains information on this companion website as well as screenshots from the site.</p>
                             <p>A full list of libraries and frameworks used can be found on the <Anchor href="https://github.com/louispallett/odin-blog-api">repository</Anchor> on GitHub.</p>
                         </div>

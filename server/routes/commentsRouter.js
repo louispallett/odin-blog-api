@@ -6,19 +6,18 @@ Otherwise, our functions will throw errors.
 const router = express.Router({ mergeParams: true });
 
 const comment_controller = require("../Controllers/commentController");
-const verifyToken = require("../config/verifyToken");
 
 router.get("/", comment_controller.comment_list);
 
-router.get("/create", verifyToken, comment_controller.new_comment_get);
+router.get("/create", comment_controller.new_comment_get);
 
-router.post("/create", verifyToken, comment_controller.new_comment_post);
+router.post("/create", comment_controller.new_comment_post);
 
 router.get("/:id", comment_controller.comment_detail);
 
-router.get("/:id/delete", verifyToken, comment_controller.delete_get);
+router.get("/:id/delete", comment_controller.delete_get);
 
-router.post("/:id/delete", verifyToken, comment_controller.delete_post);
+router.post("/:id/delete", comment_controller.delete_post);
 
 
 module.exports = router;

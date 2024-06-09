@@ -17,7 +17,7 @@ export default function SignUp() {
     const onSubmit = async (data) => {
         setIsPending(true);
         try {
-            const response = await fetch("/api/writers/sign-up", {
+            const response = await fetch("https://son-server.fly.dev/api/writers/sign-up", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)

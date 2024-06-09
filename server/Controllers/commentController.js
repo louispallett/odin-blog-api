@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
 const Comment = require("../models/comment");
+const replaceEncodedCharacters = require("../config/encodedChar");
 const verifyUser = require("../config/verifyUser");
 
 exports.comment_list = asyncHandler(async (req, res, next) => {
@@ -51,6 +52,7 @@ exports.new_comment_post = [
                 content: req.body.content,
                 date: new Date(),
             });
+            new_comment.content = replaceEncodedCharacters(new_comment.content);
             await new_comment.save();
             res.json({ new_comment });
         } catch (err) {
